@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Mobile Legends",
+    "image": "src/assets/img/MLBB-icon.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Mysti Quest",
+    "image": "https://via.placeholder.com/95x143/FFFFFF/000000?text=No+Image"
+  },
+  {
+    "id": 3,
+    "name": "Racing Fury",
+    "image": "https://via.placeholder.com/95x143/FFFFFF/000000?text=No+Image"
+  },
+  {
+    "id": 4,
+    "name": "Racing Fury2",
+    "image": "https://via.placeholder.com/95x143/FFFFFF/000000?text=No+Image"
+  }
+]

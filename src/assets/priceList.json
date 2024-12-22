@@ -1,0 +1,44 @@
+{
+  "Mobile-Legends": [
+    {
+      "quantity": "100",
+      "price": 10000,
+      "title": "Pembelian 100 diamond"
+    },
+    {
+      "quantity": "200",
+      "price": 20000,
+      "title": "Pembelian 200 diamond"
+    },
+    {
+      "quantity": "300",
+      "price": 30000,
+      "title": "Pembelian 300 diamond"
+    },
+    {
+      "quantity": "400",
+      "price": 40000,
+      "title": "Pembelian 100 diamond"
+    },
+    {
+      "quantity": "500",
+      "price": 50000,
+      "title": "Pembelian 200 diamond"
+    },
+    {
+      "quantity": "600",
+      "price": 60000,
+      "title": "Pembelian 300 diamond"
+    },
+    {
+      "quantity": "700",
+      "price": 70000,
+      "title": "Pembelian 100 diamond"
+    },
+    {
+      "quantity": "800",
+      "price": 80000,
+      "title": "Pembelian 200 diamond"
+    }
+  ]
+}
