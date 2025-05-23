@@ -23,17 +23,18 @@ const GameList = () => {
   }, []);
 
   return (
-    <div className="mt-[16px] w-[360px] mx-auto md:w-[1440px]">
+    <div className="mt-[16px] w-[360px] mx-auto md:w-auto md:max-w-[1440px] p-5">
       <h6 className="font-bold text-white text-[16px] md:text-[20px] mt-[30px]">
         Daftar Games
       </h6>
 
-      <div className="md:mt-[10px] flex flex-wrap gap-[20px] justify-between cursor-pointer mt-[30px]">
+      <div className="md:mt-[10px] flex flex-wrap gap-[20px]  cursor-pointer mt-[30px]">
         {games.length > 0 ? (
           games.map((game) => (
             <Link
-              to={`/DiamondlistGame/${game.id_list_game}`}
-              key={game.id_list_game}
+              to={`/diamond-list-game/${game.id}`}
+              key={game.id}
+              state={{ gameName: game.game_name }}
             >
               <div>
                 <img

@@ -40,7 +40,9 @@ export function ProfileForm() {
       selectedPayment: "",
     },
   });
-
+  const handleCloseParent = (a) => {
+    setConfirmOrderVisible(a);
+  };
   const onSubmit = async (data) => {
     console.log("=== Form Data Saat Submit ===", data);
     console.log("Form Errors:", form.formState.errors);
@@ -98,10 +100,14 @@ export function ProfileForm() {
   return (
     <>
       {isConfirmOrderVisible && (
-        <ConfirmOrder notifications={orderData} onConfirm={handleConfirm} />
+        <ConfirmOrder
+          notifications={orderData}
+          onConfirm={handleConfirm}
+          handleClosChild={handleCloseParent}
+        />
       )}
 
-      <div className="w-[360px] md:w-[1440px] mx-auto mt-[10px]">
+      <div className=" max-w-[360px] px-4 w-full md:max-w-[1440px] mx-auto mt-[10px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="flex space-x-4 items-center">

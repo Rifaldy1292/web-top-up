@@ -13,14 +13,14 @@ import {
 
 export function CarouselDemo() {
   return (
-    <div className="relative ">
-      <Carousel>
+    <div className="w-full p-5">
+      <Carousel className="md:w-auto md:max-w-[1440px] mx-auto w-full max-w-[360px] ">
         <CarouselContent>
           <CarouselItem>
             <img
               src={caresoulImage1}
               alt=""
-              className=" md:h-[400px] w-full rounded-[10px] h-[150px] object-cover "
+              className=" md:h-[400px] w-full rounded-[10px] h-[150px] object-cover   "
             />
           </CarouselItem>
           <CarouselItem>

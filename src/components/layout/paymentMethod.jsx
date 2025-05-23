@@ -12,66 +12,39 @@ const PaymentMethod = ({ onPaymentSelect }) => {
 
   return (
     <div className="space-y-4">
-      {/* Gopay */}
-      <div
-        className={`p-4 h-[70px] flex items-center justify-center rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition duration-300 ${
-          selectedMethod === "Gopay"
-            ? "bg-violet-600 text-white"
-            : "bg-white text-black"
+      <a className="text-white font-bold block mb-5">Pilih Metode Pembayaran</a>
+      {[
+        {
+          label: "Gopay",
+          icon: "/path/to/gopay-icon.png",
+        },
+        {
+          label: "Bank Transfer",
+          icon: "/path/to/bank-transfer-icon.png",
+        },
+        {
+          label: "Cash on Delivery",
+          icon: "/path/to/cod-icon.png",
+        },
+      ].map((method) => (
+        <div
+          key={method.label}
+          className={`flex items-center h-[80px] rounded-xl px-4 shadow-md cursor-pointer transition duration-300 transform
+        ${
+          selectedMethod === method.label
+            ? "bg-violet-600 text-white shadow-lg"
+            : "bg-white text-gray-900 hover:bg-violet-100 hover:scale-[1.02] hover:shadow-lg"
         }`}
-        onClick={() => handleSelectMethod("Gopay")}
-      >
-        <div className="flex items-center justify-center mr-4">
+          onClick={() => handleSelectMethod(method.label)}
+        >
           <img
-            src="/path/to/gopay-icon.png"
-            alt="Gopay"
-            className="w-12 h-12"
+            src={method.icon}
+            alt={method.label}
+            className="w-10 h-10 mr-4"
           />
+          <h3 className="text-base font-semibold truncate">{method.label}</h3>
         </div>
-        <h3 className="text-lg font-semibold text-center truncate">Gopay</h3>
-      </div>
-
-      {/* Bank Transfer */}
-      <div
-        className={`p-4 h-[70px] flex items-center justify-center rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition duration-300 ${
-          selectedMethod === "Bank Transfer"
-            ? "bg-violet-600 text-white"
-            : "bg-white text-black"
-        }`}
-        onClick={() => handleSelectMethod("Bank Transfer")}
-      >
-        <div className="flex items-center justify-center mr-4">
-          <img
-            src="/path/to/bank-transfer-icon.png"
-            alt="Bank Transfer"
-            className="w-12 h-12"
-          />
-        </div>
-        <h3 className="text-lg font-semibold text-center truncate">
-          Bank Transfer
-        </h3>
-      </div>
-
-      {/* Cash on Delivery */}
-      <div
-        className={`p-4 h-[70px] flex items-center justify-center rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition duration-300 ${
-          selectedMethod === "Cash on Delivery"
-            ? "bg-violet-600 text-white"
-            : "bg-white text-black"
-        }`}
-        onClick={() => handleSelectMethod("Cash on Delivery")}
-      >
-        <div className="flex items-center justify-center mr-4">
-          <img
-            src="/path/to/cod-icon.png"
-            alt="Cash on Delivery"
-            className="w-12 h-12"
-          />
-        </div>
-        <h3 className="text-lg font-semibold text-center truncate">
-          Cash on Delivery
-        </h3>
-      </div>
+      ))}
     </div>
   );
 };

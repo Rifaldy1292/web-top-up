@@ -17,15 +17,21 @@ export function ConfirmOrder({
   notifications = [],
   className,
   onConfirm,
+  handleClosChild,
   ...props
 }) {
   const [loading, setLoading] = useState(false); // Tambahkan loading state
   console.log(`proops ${notifications}`);
+  const handleCancle = () => {
+    handleClosChild(false);
+  };
+
   const handleConfirm = async () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     try {
       setLoading(true); // Aktifkan loading
 
-      const url = "http://localhost:5000/api/create-transaction"; // API backend kamu
+      const url = `${API_URL}/api/create-transaction`; // API backend kamu
 
       const headers = {
         "Content-Type": "application/json",
@@ -65,8 +71,14 @@ export function ConfirmOrder({
         onConfirm(); // Menampilkan pop-up Midtrans Snap
         window.snap.pay(transactionToken, {
           onSuccess: function (result) {
+            // Menangani jika pembayaran berhasil
             console.log("Pembayaran berhasil:", result);
             alert("Pembayaran berhasil!");
+
+            // Anda bisa mengarahkan pengguna ke halaman lain, misalnya halaman terima kasih
+            // Ganti dengan URL yang sesuai
+
+            // Atau kirim status pembayaran ke backend untuk pembaruan data
           },
           onPending: function (result) {
             console.log("Menunggu pembayaran:", result);
@@ -102,7 +114,7 @@ export function ConfirmOrder({
   return (
     <Card
       className={cn(
-        "w-[350px] h-[450px] md:h-[450px] z-[2] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ",
+        "w-[350px] text-white h-[450px] md:h-[450px] z-[2] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2c092c] ",
         className
       )}
     >
@@ -133,15 +145,34 @@ export function ConfirmOrder({
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={handleConfirm} disabled={loading}>
-          {loading ? (
-            "Processing..."
-          ) : (
-            <>
-              <CheckIcon /> Confirm
-            </>
-          )}
-        </Button>
+        <div className=" gap-5 flex w-full">
+          <Button
+            className="w-full bg-[#800080]"
+            onClick={handleCancle}
+            disabled={loading}
+          >
+            {loading ? (
+              "Processing..."
+            ) : (
+              <>
+                <CheckIcon /> Cancle
+              </>
+            )}
+          </Button>
+          <Button
+            className="w-full bg-[#800080]"
+            onClick={handleConfirm}
+            disabled={loading}
+          >
+            {loading ? (
+              "Processing..."
+            ) : (
+              <>
+                <CheckIcon /> Confirm
+              </>
+            )}
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );

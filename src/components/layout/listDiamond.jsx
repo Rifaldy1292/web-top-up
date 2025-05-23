@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { fetchDiamondGames } from "../../api/userApi";
 
-const ListDiamond = ({ onDiamondSelect }) => {
+const ListDiamond = ({ onDiamondSelect, tittle }) => {
   const [selectedDiamond, setSelectedDiamond] = useState(null); // State untuk menyimpan pilihan diamond
 
   const [gameData, setGameData] = useState([]);
@@ -29,36 +29,41 @@ const ListDiamond = ({ onDiamondSelect }) => {
   };
 
   return (
-    <div className="w-[360px] md:w-full mx-auto flex flex-wrap gap-[20px] justify-between cursor-pointer">
-      {gameData.map((diamond, index) => (
-        <div
-          className={`relative h-[70px] w-[160px] rounded p-[10px] text-white transition duration-200 
-            ${
-              selectedDiamond === diamond.price
-                ? "bg-[#571c57]"
-                : "bg-[#2c092c]"
-            } 
-            hover:bg-[#571c57]`} // Menambahkan styling kondisi jika diamond terpilih
-          key={`${diamond.packet_name}-${index}`}
-        >
-          <input
-            type="radio"
-            name="diamond" // Semua radio button dalam grup ini memiliki nama yang sama
-            id={`diamond-${diamond.packet_name}`} // ID unik untuk input
-            value={diamond.price} // Menetapkan nilai diamond
-            className="absolute inset-0 cursor-pointer opacity-0" // Menyembunyikan radio button tetapi tetap bisa diklik
-            onChange={() => handleDiamondSelect(diamond.price)} // Menangani perubahan ketika diamond dipilih
-            checked={selectedDiamond === diamond.price} // Menandai radio button yang dipilih
-          />
-          <label
-            htmlFor={`diamond-${diamond.packet_name}`}
-            className="flex flex-col h-full justify-center items-center text-center"
+    <div>
+      <a className="text-white font-bold block mb-5">Pilih Jumlah Diamond</a>
+
+      <div className="w-full max-w-[360px] md:max-w-full mx-auto flex flex-wrap gap-4 justify-center md:justify-start cursor-pointer">
+        {gameData.map((diamond, index) => (
+          <div
+            className={`relative w-[150px] h-[80px] rounded-xl p-3 text-white transition-all duration-200 border 
+        ${
+          selectedDiamond === diamond.price
+            ? "bg-gradient-to-br from-[#6a1b9a] to-[#8e24aa] border-purple-300 shadow-lg"
+            : "bg-[#1c1c1e] border-[#2c2c2e] hover:border-purple-400 hover:bg-[#2a0e2a]"
+        }`}
+            key={`${diamond.packet_name}-${index}`}
           >
-            {`${diamond.packet_name}`} <br /> Rp.{" "}
-            {new Intl.NumberFormat("id-ID").format(diamond.price)}
-          </label>
-        </div>
-      ))}
+            <input
+              type="radio"
+              name="diamond"
+              id={`diamond-${diamond.packet_name}`}
+              value={diamond.price}
+              className="absolute inset-0 cursor-pointer opacity-0"
+              onChange={() => handleDiamondSelect(diamond.price)}
+              checked={selectedDiamond === diamond.price}
+            />
+            <label
+              htmlFor={`diamond-${diamond.packet_name}`}
+              className="flex flex-col justify-center items-center h-full text-center font-medium text-sm md:text-base leading-tight"
+            >
+              <span>{diamond.packet_name}</span>
+              <span className="mt-1 text-sm text-gray-300">{`Rp ${new Intl.NumberFormat(
+                "id-ID"
+              ).format(diamond.price)}`}</span>
+            </label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
