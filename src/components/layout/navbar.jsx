@@ -90,8 +90,8 @@ const Navbar = () => {
           </div>
         </nav>
         {isDropdownVisible && ( // Pastikan ini sesuai dengan state
-          <div className=" relative w-[300px] md:w-full md:max-w-[1400px]  mx-auto z-10">
-            <div className="absolute right-3 mt-2 text-white shadow-sm text-[11px] md:text-[20px] w-[113px] h-[104px] md:w-[226px] md:h-[208px] bg-[#2c092c] rounded-[4px] md:rounded-[10px] flex flex-col justify-between ml-auto p-2 md:p-[15px]">
+          <div className=" relative w-[300px] md:w-full md:max-w-[1400px] h-auto  mx-auto z-10">
+            <div className="absolute right-3 mt-2 text-white shadow-sm text-[11px] md:text-[20px] w-[113px] h-[154px] md:w-[226px] md:h-[258px] bg-[#2c092c] rounded-[4px] md:rounded-[10px] flex flex-col justify-between ml-auto p-2 md:p-[15px]">
               {/* Daftar */}
               <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
                 <img
@@ -130,7 +130,15 @@ const Navbar = () => {
                   alt=""
                   className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
                 />
-                <span>Panel Admin</span>
+                <Link to="/admin-dashboard">Panel Admin</Link>
+              </div>
+              <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
+                <img
+                  src={Star}
+                  alt=""
+                  className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
+                />
+                <Link to="/login">Log out</Link>
               </div>
             </div>
           </div>
