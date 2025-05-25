@@ -2,8 +2,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import IndexLayout from "@/components/layout/indexLayout";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: e.target.value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(formData);
+  };
   return (
     <IndexLayout>
       <div className="min-h-screen flex items-center justify-center  px-4">
@@ -11,12 +25,16 @@ export default function LoginPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
             Masuk ke Akun Anda
           </h1>
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-medium text-white mb-1">
                 Email
               </label>
               <Input
+                autoComplete="off"
+                onChange={handleChange}
+                name="email"
+                value={formData.email}
                 type="email"
                 placeholder="Masukkan email"
                 className="bg-white/10 text-white border border-white/20 placeholder:text-white/60"
@@ -27,6 +45,9 @@ export default function LoginPage() {
                 Password
               </label>
               <Input
+                onChange={handleChange}
+                name="password"
+                value={formData.password}
                 type="password"
                 placeholder="Masukkan password"
                 className="bg-white/10 text-white border border-white/20 placeholder:text-white/60"

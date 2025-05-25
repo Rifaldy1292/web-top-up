@@ -20,6 +20,16 @@ export const fetchDiamondGames = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching game:", error);
-    return null;
+    return response.error;
+  }
+};
+
+export const register = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/register`, data);
+    return response;
+  } catch (error) {
+    console.error("eror fetching users:", error);
+    return error;
   }
 };
