@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import IndexLayout from "@/components/layout/indexLayout";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { register } from "../../api/userApi";
+import { register } from "../../api/userApi.js";
 export default function RegisterPage() {
   const [eror, setEror] = useState("");
 
@@ -57,7 +57,11 @@ export default function RegisterPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
             Buat Akun Baru
           </h1>
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form
+            className="space-y-5"
+            autocomplete="off"
+            onSubmit={handleSubmit}
+          >
             <div>
               <label className="block text-sm font-medium text-white mb-1">
                 Username

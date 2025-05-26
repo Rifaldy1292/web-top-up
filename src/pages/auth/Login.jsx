@@ -3,19 +3,45 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import IndexLayout from "@/components/layout/indexLayout";
 import { useState } from "react";
+import { login } from "@/api/userApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccessToken } from "../../auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.accessToken);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      const response = await login(formData);
+      console.log("Response:", response);
+      if (response.status !== 200 && response.status !== 201) {
+        return;
+      }
+
+      console.log("Pendaftaran berhasil:", response);
+      dispatch(setAccessToken(response.data.token));
+      console.log("token", response.data.token);
+      navigate("/");
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.error("Error during registration:", error);
+      // setEror("Gagal melakukan pendaftaran. Silakan coba lagi.");
+    }
     console.log(formData);
   };
   return (

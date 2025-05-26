@@ -1,24 +1,87 @@
 import LogoNavbardevice from "../../assets/img/apple.png";
-
+import { useSelector } from "react-redux";
 import logoAvatar from "../../assets/img/hacker.png";
 import ArrowDown from "../../assets/img/image.png";
 import { useState } from "react";
 import cutomerService from "../../assets/img/support.png";
 import Star from "../../assets/img/user.png";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { setAccessToken, logout } from "../../auth/authSlice.js";
+import { refreshToken, handleLogout } from "../../api/userApi.js";
 const ProfilLogin = "https://via.placeholder.com/30x30?text=Login";
+import { jwtDecode } from "jwt-decode";
 
 import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const token = useSelector((state) => state.auth.accessToken);
   const location = useLocation();
   const currentPath = location.pathname;
   const [isRotated, setIsRotated] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false); // State untuk mengontrol visibilitas div
+  function isTokenExpired(token) {
+    if (!token) return true;
+    try {
+      const { exp } = jwtDecode(token);
+      return Date.now() >= exp * 1000; // exp dalam detik, Date.now() dalam ms
+    } catch {
+      return true; // jika gagal decode, anggap expired
+    }
+  }
 
+  useEffect(
+    () => {
+      async function handleRefreshToken() {
+        // 🔐 Kalau token tidak ada, berarti user belum login → jangan refresh
+        if (!token) {
+          console.log("Token tidak ditemukan, user belum login.", token);
+          setIsValid(false); // user dianggap belum login
+          return;
+        }
+
+        // 🔁 Kalau token ada, cek apakah expired
+        if (isTokenExpired(token)) {
+          try {
+            const response = await refreshToken();
+            dispatch(setAccessToken(response.data.accessToken));
+            setIsValid(true); // token baru berhasil disetel
+          } catch (error) {
+            dispatch(logout());
+            setIsValid(false);
+            // navigate("/login"); // kalau ingin redirect saat gagal refresh
+          }
+        } else {
+          setIsValid(true); // token masih valid
+        }
+      }
+
+      handleRefreshToken();
+    },
+    [],
+    [token, dispatch]
+  );
   const handleArrowClick = () => {
     setIsRotated(!isRotated); // Toggle rotasi
     setDropdownVisible(!isDropdownVisible); // Toggle visibilitas dropdown
     // console.log(document.documentElement.scrollHeight); // Tinggi total dari konten
     // console.log(document.documentElement.clientHeight); // Tinggi dari viewport yang terlihat
+  };
+  const logoutUser = async () => {
+    console.log("Logout initiated");
+    try {
+      const response = await handleLogout();
+      console.log("Logout response:", response);
+      console.log("Logout initiated2");
+      dispatch(logout()); // hapus access token di redux
+      navigate("/login"); // redirect ke login atau halaman lain
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -90,30 +153,31 @@ const Navbar = () => {
           </div>
         </nav>
         {isDropdownVisible && ( // Pastikan ini sesuai dengan state
-          <div className=" relative w-[300px] md:w-full md:max-w-[1400px] h-auto  mx-auto z-10">
-            <div className="absolute right-3 mt-2 text-white shadow-sm text-[11px] md:text-[20px] w-[113px] h-[154px] md:w-[226px] md:h-[258px] bg-[#2c092c] rounded-[4px] md:rounded-[10px] flex flex-col justify-between ml-auto p-2 md:p-[15px]">
-              {/* Daftar */}
-              <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
-                <img
-                  src={Star}
-                  alt=""
-                  className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
-                />
-                <span>
-                  <Link to="/register">Daftar</Link>
-                </span>
-              </div>
+          <div className=" relative w-[300px] md:w-full md:max-w-[1400px]   mx-auto z-10">
+            <div className="absolute right-3 mt-2 text-white shadow-sm text-[11px] md:text-[20px] w-[113px] h-auto md:w-[226px] md:gap-10 gap-5 bg-[#2c092c] rounded-[4px] md:rounded-[10px] flex flex-col justify-between ml-auto p-2 md:p-[15px]">
+              {!isValid && (
+                <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
+                  <img
+                    src={Star}
+                    alt=""
+                    className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
+                  />
+                  <span>
+                    <Link to="/register">Daftar</Link>
+                  </span>
+                </div>
+              )}
 
-              {/* Masuk */}
-              <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
-                <img
-                  src={Star}
-                  alt=""
-                  className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
-                />
-                <Link to="/login">Masuk</Link>
-              </div>
-
+              {!isValid && (
+                <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
+                  <img
+                    src={Star}
+                    alt=""
+                    className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
+                  />
+                  <Link to="/login">Masuk</Link>
+                </div>
+              )}
               {/* Hubungi CS */}
               <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
                 <img
@@ -124,22 +188,26 @@ const Navbar = () => {
 
                 <Link to="/contact-admin">kontak Cs</Link>
               </div>
-              <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
-                <img
-                  src={cutomerService}
-                  alt=""
-                  className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
-                />
-                <Link to="/admin-dashboard">Panel Admin</Link>
-              </div>
-              <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
-                <img
-                  src={Star}
-                  alt=""
-                  className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
-                />
-                <Link to="/login">Log out</Link>
-              </div>
+              {isValid && (
+                <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
+                  <img
+                    src={cutomerService}
+                    alt=""
+                    className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
+                  />
+                  <Link to="/admin-dashboard">Panel Admin</Link>
+                </div>
+              )}
+              {isValid && (
+                <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
+                  <img
+                    src={Star}
+                    alt=""
+                    className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
+                  />
+                  <button onClick={logoutUser}>Log out</button>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -53,7 +53,7 @@ const CekTransaksi = () => {
               placeholder="Masukkan ID Transaksi"
               value={transactionId}
               onChange={(e) => setTransactionId(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-[#3b0a57] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full border border-purple-300 px-4 py-3 rounded-lg bg-[#3b0a57] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <button

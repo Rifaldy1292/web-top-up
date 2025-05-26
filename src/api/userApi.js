@@ -33,3 +33,43 @@ export const register = async (data) => {
     return error;
   }
 };
+
+export const login = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/login`, data, {
+      withCredentials: true, // <== ini WAJIB supaya cookie tersimpan
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return error;
+  }
+};
+export const refreshToken = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/refresh-token`, {
+      withCredentials: true, // agar cookie (refresh token) ikut terkirim
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return error;
+  }
+};
+
+// Anggap server kirim access token baru di response.data.accessToken
+export const handleLogout = async () => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/logout`,
+      {},
+      {
+        withCredentials: true, // <== wajib agar cookie (refresh token) ikut dikirim ke backend
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error during logout:", error);
+    return error;
+  }
+};
