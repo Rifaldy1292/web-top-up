@@ -20,28 +20,64 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
-
-const gamesData = [
-  { id: 1, name: "Mobile Legends", genre: "MOBA", status: "Active" },
-  { id: 2, name: "PUBG Mobile", genre: "Battle Royale", status: "Active" },
-  { id: 3, name: "Genshin Impact", genre: "RPG", status: "Maintenance" },
-];
+import { useEffect } from "react";
+import { fetchGames, deleteGame } from "../../../api/authApi.js";
+import { set } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+// const gamesData = [
+//   { id: 1, name: "Mobile Legends", genre: "MOBA", status: "Active" },
+//   { id: 2, name: "PUBG Mobile", genre: "Battle Royale", status: "Active" },
+//   { id: 3, name: "Genshin Impact", genre: "RPG", status: "Maintenance" },
+// ];
 
 const Games = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [gamesData, setGamesData] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
+  const token = useSelector((state) => state.auth.accessToken);
+  const handleFetchGames = async () => {
+    try {
+      const response = await fetchGames();
+      if (response) {
+        console.log("Games fetched successfully:", response);
+        setGamesData(response);
+      } else {
+        console.error("Failed to fetch games.");
+      }
+    } catch (error) {
+      console.error("Error fetching games:", error);
+    }
+  };
+  useEffect(() => {
+    handleFetchGames();
 
-  const handleDelete = () => {
-    // Logika hapus bisa kamu sesuaikan sendiri
+    console.log("ini bro", gamesData); // Set initial data
+  }, []);
+
+  const handleDelete = async () => {
+    try {
+      const response = await deleteGame(token, selectedGame.id);
+      if (response) {
+        console.log("game berhasil dihapus:", response);
+        handleFetchGames();
+      } else {
+        console.error("gagal menghapus game ");
+        return;
+      }
+    } catch (error) {
+      console.error("Error deleting game:", error);
+      return;
+    }
     console.log("Menghapus game dengan ID:", selectedGame?.id);
     setOpenDialog(false);
   };
 
   return (
     <IndexLayout>
-      <div className="p-6 max-w-[1440px] mx-auto">
+      <div className="p-6 max-w-[1440px]  mx-auto">
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <Card className="bg-[#2c092c] shadow-md h-auto border border-[#3a0b3a]">
+          <Card className="bg-[#2c092c] shadow-md h-full md:h-full  border border-[#3a0b3a]">
             <CardHeader className="flex justify-between items-center">
               <CardTitle className="text-2xl font-bold text-white">
                 Daftar Game
@@ -60,7 +96,7 @@ const Games = () => {
                   <TableRow>
                     <TableHead className="w-[50px] text-white">ID</TableHead>
                     <TableHead className="text-white">Nama Game</TableHead>
-                    <TableHead className="text-white">Genre</TableHead>
+                    <TableHead className="text-white">Icon Game</TableHead>
                     <TableHead className="text-white">Status</TableHead>
                     <TableHead className="text-right text-white">
                       Aksi
@@ -74,10 +110,14 @@ const Games = () => {
                       className="hover:bg-[#3a0b3a] transition-colors"
                     >
                       <TableCell className="text-white">{game.id}</TableCell>
-                      <TableCell className="text-white">{game.name}</TableCell>
-                      <TableCell className="text-white">{game.genre}</TableCell>
                       <TableCell className="text-white">
-                        {game.status}
+                        {game.game_name}
+                      </TableCell>
+                      <TableCell className="text-white">
+                        {game.url_games_image}
+                      </TableCell>
+                      <TableCell className="text-white">
+                        {game.status ? "Aktif" : "Tidak Aktif"}
                       </TableCell>
                       <TableCell className="text-right space-x-3">
                         <Button
@@ -96,7 +136,9 @@ const Games = () => {
                           className="bg-[#9c27b0] border-[#9c27b0] text-white hover:bg-[#3a0b3a] hover:text-white"
                         >
                           {" "}
-                          <Link to="/admin-dashboard/games/edit-games">
+                          <Link
+                            to={`/admin-dashboard/games/edit-games/${game.id}`}
+                          >
                             Edit
                           </Link>
                         </Button>
@@ -123,7 +165,7 @@ const Games = () => {
 
           {/* Modal Konfirmasi */}
 
-          <DialogContent className="bg-[#2c092c] border border-[#3a0b3a] text-white">
+          <DialogContent className="bg-[#2c092c] border  sm:max-w-[425px] border-[#3a0b3a] text-white">
             <DialogHeader>
               <DialogTitle>Konfirmasi Penghapusan</DialogTitle>
               <DialogDescription className="text-white/70">
@@ -132,19 +174,21 @@ const Games = () => {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="mt-4">
-              <Button
-                variant="outline"
-                className="bg-gray-600 hover:bg-gray-700 text-white"
-                onClick={() => setOpenDialog(false)}
-              >
-                Batal
-              </Button>
-              <Button
-                className="bg-red-600 hover:bg-red-700 text-white"
-                onClick={handleDelete}
-              >
-                Hapus
-              </Button>
+              <div className="w-full justify-end flex gap-3">
+                <Button
+                  variant="outline"
+                  className="bg-gray-600 hover:bg-gray-700 text-white"
+                  onClick={() => setOpenDialog(false)}
+                >
+                  Batal
+                </Button>
+                <Button
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  onClick={handleDelete}
+                >
+                  Hapus
+                </Button>
+              </div>
             </DialogFooter>
           </DialogContent>
         </Dialog>

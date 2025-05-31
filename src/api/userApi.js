@@ -73,3 +73,21 @@ export const handleLogout = async () => {
     return error;
   }
 };
+export const getAmountGames = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/games-total`);
+    return response;
+  } catch (error) {
+    console.error("Error during logout:", error);
+    return error;
+  }
+};
+export const fetchBanner = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/get-banners`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete game:", error);
+    return null;
+  }
+};

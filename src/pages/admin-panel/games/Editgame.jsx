@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchOneGame } from "../../../api/authApi.js";
+import { useEffect } from "react";
+import { editGame } from "../../../api/authApi.js";
 import {
   Select,
   SelectContent,
@@ -12,8 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 const EditGames = () => {
+  const { id } = useParams();
+  const token = useSelector((state) => state.auth.accessToken);
   const [formData, setFormData] = useState({
     name: "",
     genre: "",
@@ -21,6 +27,19 @@ const EditGames = () => {
     logo: null,
     banner: null,
   });
+  useEffect(() => {
+    const fetchGame = async () => {
+      try {
+        const response = await fetchOneGame(token, id);
+        setFormData(response.data);
+        console.log("Game data fetched:", response.data);
+      } catch (error) {
+        console.error("Gagal mengambil data game:", error);
+      }
+    };
+
+    fetchGame();
+  }, [id, token]);
 
   const navigate = useNavigate();
 
@@ -32,11 +51,20 @@ const EditGames = () => {
     setFormData({ ...formData, [field]: file });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simpan ke database atau upload file ke server di sini
-    console.log("Game baru:", formData);
-    navigate("/admin-dashboard");
+    try {
+      const response = await editGame(token, id, formData);
+      if (response) {
+        console.log("Game edit successfully:", response);
+        navigate("/admin-dashboard/games");
+      } else {
+        console.error("Failed to add game.");
+      }
+    } catch (error) {
+      console.error("Error adding game:", error);
+    }
+    console.log("Game edit:", formData);
   };
 
   return (
@@ -55,21 +83,8 @@ const EditGames = () => {
                 <Input
                   id="name"
                   placeholder="Contoh: Mobile Legends"
-                  value={formData.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
-                  className="bg-[#3a0b3a] border-none text-white placeholder:text-white/50"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="genre" className="text-white">
-                  Genre
-                </Label>
-                <Input
-                  id="genre"
-                  placeholder="Contoh: MOBA"
-                  value={formData.genre}
-                  onChange={(e) => handleChange("genre", e.target.value)}
+                  value={formData.game_name}
+                  onChange={(e) => handleChange("game_name", e.target.value)}
                   className="bg-[#3a0b3a] border-none text-white placeholder:text-white/50"
                 />
               </div>
@@ -80,15 +95,16 @@ const EditGames = () => {
                 </Label>
                 <Select
                   value={formData.status}
-                  onValueChange={(value) => handleChange("status", value)}
+                  onValueChange={(value) =>
+                    handleChange("status", Number(value))
+                  }
                 >
                   <SelectTrigger className="bg-[#3a0b3a] text-white border-none">
                     <SelectValue placeholder="Pilih Status" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#3a0b3a] text-white border-none">
-                    <SelectItem value="Active">Active</SelectItem>
-                    <SelectItem value="Maintenance">Maintenance</SelectItem>
-                    <SelectItem value="Coming Soon">Coming Soon</SelectItem>
+                    <SelectItem value="1">Active</SelectItem>
+                    <SelectItem value="0">Non Active</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

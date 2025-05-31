@@ -9,12 +9,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useSelector } from "react-redux";
+import { addBanner } from "../../../api/authApi";
 
 const ModalTambahBanner = ({ open, onClose, onSubmit }) => {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
-
+  const token = useSelector((state) => state.auth.accessToken);
+  console.log("Token:", token);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -23,13 +26,24 @@ const ModalTambahBanner = ({ open, onClose, onSubmit }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!title || !imageFile) return;
     onSubmit({
       title,
       image: preview, // untuk tampilan, file tetap disimpan di memori lokal
       file: imageFile, // bisa kamu kirim ke server atau Firebase nanti
     });
+    console.log("Banner submitted:", {
+      title,
+      image: preview,
+      file: imageFile,
+    });
+    const response = await addBanner(token, {
+      title,
+      image: preview, // untuk tampilan, file tetap disimpan di memori lokal
+      image: imageFile, // bisa kamu kirim ke server atau Firebase nanti
+    });
+
     setTitle("");
     setImageFile(null);
     setPreview(null);
@@ -37,7 +51,7 @@ const ModalTambahBanner = ({ open, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="w-[350px] md:w-full rounded-sm">
         <DialogHeader>
           <DialogTitle>Tambah Banner Baru</DialogTitle>
         </DialogHeader>

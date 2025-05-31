@@ -2,13 +2,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import IndexLayout from "@/components/layout/IndexLayout";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getAmountGames } from "../../../api/userApi";
+import { useState } from "react"; // Adjust the import path as necessary
 const Dashboard = () => {
+  const [totalGames, setTotalGames] = useState("0");
   const stats = [
-    { title: "Total Games", value: "12", type: "games" },
+    { title: "Total Games", value: totalGames, type: "games" },
     { title: "Top Up Hari Ini", value: "Rp 1.250.000", type: "games" },
-    { title: "Atur Banner Homepage", value: "3", type: "banner" },
+    { title: "Atur Banner Homepage", value: "", type: "banner" },
     { title: "Atur Daftar Diamond", value: "245", type: "list-diamond" },
   ];
+  useEffect(() => {
+    const fetchAmountGames = async () => {
+      try {
+        const response = await getAmountGames();
+        if (response) {
+          console.log("Game added successfully:", response);
+          setTotalGames(response.data.totalGames);
+        } else {
+          console.error("Failed to add game.");
+        }
+      } catch (error) {
+        console.error("Error adding game:", error);
+      }
+    };
+
+    fetchAmountGames();
+  }, []);
 
   return (
     <IndexLayout>

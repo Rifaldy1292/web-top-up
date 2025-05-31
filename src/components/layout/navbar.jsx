@@ -34,37 +34,46 @@ const Navbar = () => {
     }
   }
 
-  useEffect(
-    () => {
-      async function handleRefreshToken() {
-        // 🔐 Kalau token tidak ada, berarti user belum login → jangan refresh
-        if (!token) {
-          console.log("Token tidak ditemukan, user belum login.", token);
-          setIsValid(false); // user dianggap belum login
-          return;
-        }
+  useEffect(() => {
+    async function handleRefreshToken() {
+      if (!token) {
+        try {
+          const response = await refreshToken();
+          const newToken = response.data.accessToken;
 
-        // 🔁 Kalau token ada, cek apakah expired
-        if (isTokenExpired(token)) {
-          try {
-            const response = await refreshToken();
-            dispatch(setAccessToken(response.data.accessToken));
-            setIsValid(true); // token baru berhasil disetel
-          } catch (error) {
-            dispatch(logout());
+          if (newToken) {
+            dispatch(setAccessToken(newToken));
+            setIsValid(true);
+            return; // langsung selesai kalau dapat token baru
+          } else {
             setIsValid(false);
-            // navigate("/login"); // kalau ingin redirect saat gagal refresh
+            return;
           }
-        } else {
-          setIsValid(true); // token masih valid
+        } catch (error) {
+          setIsValid(false);
+          return;
         }
       }
 
-      handleRefreshToken();
-    },
-    [],
-    [token, dispatch]
-  );
+      // Kalau token ada, cek expired
+      if (isTokenExpired(token)) {
+        try {
+          const response = await refreshToken();
+          dispatch(setAccessToken(response.data.accessToken));
+          setIsValid(true);
+        } catch (error) {
+          dispatch(logout());
+          setIsValid(false);
+          // navigate("/login"); // opsional redirect
+        }
+      } else {
+        setIsValid(true);
+      }
+    }
+
+    handleRefreshToken();
+  }, [token, dispatch]);
+
   const handleArrowClick = () => {
     setIsRotated(!isRotated); // Toggle rotasi
     setDropdownVisible(!isDropdownVisible); // Toggle visibilitas dropdown

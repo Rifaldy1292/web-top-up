@@ -43,7 +43,7 @@ const ModalEditBanner = ({ open, onClose, banner, onSubmit }) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="w-[350px] md:w-full rounded-sm">
         <DialogHeader>
           <DialogTitle>Edit Banner</DialogTitle>
         </DialogHeader>
