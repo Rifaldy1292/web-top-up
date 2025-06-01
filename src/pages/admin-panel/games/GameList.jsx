@@ -126,7 +126,9 @@ const Games = () => {
                           className="bg-[#9c27b0] border-[#9c27b0] text-white hover:bg-[#3a0b3a] hover:text-white"
                         >
                           {" "}
-                          <Link to="/admin-dashboard/games/diamond-list-games">
+                          <Link
+                            to={`/admin-dashboard/games/diamond-list-games/${game.id}`}
+                          >
                             Atur Pilihan Diamond
                           </Link>
                         </Button>

@@ -108,3 +108,38 @@ export const deleteBanner = async (token, gameId) => {
     return null;
   }
 };
+
+export const addListDiamond = async (gameId, token, data) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/add-list-diamond/${gameId}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error delete banner:", error);
+    return null;
+  }
+};
+export const deleteListDiamond = async (gameId, token, idDiamond) => {
+  try {
+    const response = await axios.delete(
+      `${API_URL}/api/delete-list-diamond/${gameId}/${idDiamond}`,
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error delete list diamond:", error);
+    return null;
+  }
+};

@@ -35,7 +35,7 @@ function App() {
           element={<EditGames />}
         />
         <Route
-          path="/admin-dashboard/games/diamond-list-games"
+          path="/admin-dashboard/games/diamond-list-games/:id"
           element={<AllDiamondPage />}
         />
         <Route path="/admin-dashboard/banner" element={<BannerPage />} />
