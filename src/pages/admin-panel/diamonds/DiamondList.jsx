@@ -28,7 +28,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchDiamondGames } from "../../../api/userApi";
-import { deleteListDiamond } from "../../../api/authApi";
+import { deleteListDiamond, editListDiamond } from "../../../api/authApi";
 const AllDiamondPage = () => {
   const token = useSelector((state) => state.auth.accessToken);
   const [diamonds, setDiamonds] = useState([]);
@@ -50,26 +50,58 @@ const AllDiamondPage = () => {
     console.log(data);
   };
   const handleConfirm = async () => {
-    try {
-      const dataToSend = {
-        packet_name: modalData.packet_name,
-        amount: modalData.packet_name,
-        price: modalData.harga,
-        status: "active",
-        game_id: id,
-      };
-      const response = await addListDiamond(id, token, dataToSend);
-      console.log("Berhasil tambah diamond:", response);
-      setOpenDialog(false);
-      getGameData();
-      // Misalnya: tutup modal atau refresh data
-    } catch (error) {
-      console.error("Gagal tambah diamond:", error);
-      setIsDialogOpen(false);
-      // Tambahkan penanganan error di UI jika perlu
+    if (!isEditing) {
+      try {
+        const dataToSend = {
+          packet_name: modalData.packet_name,
+          amount: modalData.packet_name,
+          price: modalData.harga,
+          status: "active",
+          game_id: id,
+        };
+        const response = await addListDiamond(id, token, dataToSend);
+        console.log("Berhasil tambah diamond:", response);
+        setModalData({
+          packet_name: "",
+          amount: "",
+          harga: "",
+        });
+        setIsDialogOpen(false);
+        getGameData();
+        // Misalnya: tutup modal atau refresh data
+      } catch (error) {
+        console.error("Gagal tambah diamond:", error);
+        setIsDialogOpen(false);
+        // Tambahkan penanganan error di UI jika perlu
+      }
+    } else {
+      try {
+        const dataToSend = {
+          packet_name: modalData.packet_name,
+          amount: modalData.packet_name,
+          price: modalData.harga,
+          status: "active",
+          game_id: id,
+        };
+        const response = await editListDiamond(
+          id,
+          token,
+          selectedDiamond.id,
+          dataToSend
+        );
+        console.log("Berhasil tambah diamond:", response);
+        setIsDialogOpen(false);
+        getGameData();
+        // Misalnya: tutup modal atau refresh data
+      } catch (error) {
+        console.error("Gagal tambah diamond:", error);
+        setIsDialogOpen(false);
+        // Tambahkan penanganan error di UI jika perlu
+      }
     }
   };
   const handleEdit = (item) => {
+    console.log("Edit item:", item);
     setModalData(item);
     setIsEditing(true);
     setIsDialogOpen(true);
@@ -90,7 +122,14 @@ const AllDiamondPage = () => {
       console.error("Gagal hapus diamond:", error);
     }
   };
-
+  const handleCancleModal = () => {
+    setIsEditing(false);
+    setModalData({
+      packet_name: "",
+      amount: "",
+      harga: "",
+    });
+  };
   useEffect(() => {
     getGameData();
   }, [id]);
@@ -134,7 +173,7 @@ const AllDiamondPage = () => {
                       <Input
                         id="harga"
                         className="bg-[#3a0b3a] border-none text-white"
-                        value={modalData.harga}
+                        value={modalData.price}
                         onChange={(e) =>
                           setModalData({ ...modalData, harga: e.target.value })
                         }
@@ -148,7 +187,11 @@ const AllDiamondPage = () => {
                         Simpan
                       </Button>
                       <DialogClose asChild>
-                        <Button variant="secondary" className="flex-1">
+                        <Button
+                          variant="secondary"
+                          className="flex-1"
+                          onClick={() => handleCancleModal()}
+                        >
                           Batal
                         </Button>
                       </DialogClose>
@@ -182,7 +225,10 @@ const AllDiamondPage = () => {
                           <div className="flex justify-center space-x-2">
                             <Button
                               className="bg-[#800080] hover:bg-[#9c27b0] text-white"
-                              onClick={() => handleEdit(item)}
+                              onClick={() => {
+                                setSelectedDiamond(item);
+                                handleEdit(item);
+                              }}
                               size="sm"
                             >
                               Edit

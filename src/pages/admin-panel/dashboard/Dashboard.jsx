@@ -11,7 +11,6 @@ const Dashboard = () => {
     { title: "Total Games", value: totalGames, type: "games" },
     { title: "Top Up Hari Ini", value: "Rp 1.250.000", type: "games" },
     { title: "Atur Banner Homepage", value: "", type: "banner" },
-    { title: "Atur Daftar Diamond", value: "245", type: "list-diamond" },
   ];
   useEffect(() => {
     const fetchAmountGames = async () => {

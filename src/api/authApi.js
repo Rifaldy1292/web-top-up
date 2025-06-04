@@ -143,3 +143,20 @@ export const deleteListDiamond = async (gameId, token, idDiamond) => {
     return null;
   }
 };
+export const editListDiamond = async (gameId, token, idDiamond, data) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/api/edit-list-diamond/${gameId}/${idDiamond}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error delete list diamond:", error);
+    return null;
+  }
+};

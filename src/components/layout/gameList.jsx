@@ -4,7 +4,8 @@ import { fetchGames } from "../../api/userApi"; // Pastikan API ini benar
 
 const GameList = () => {
   const [games, setGames] = useState([]);
-
+  const URL = import.meta.env.VITE_API_URL;
+  console.log("URL:", URL);
   useEffect(() => {
     const getGames = async () => {
       try {
@@ -28,7 +29,7 @@ const GameList = () => {
         Daftar Games
       </h6>
 
-      <div className="md:mt-[10px] flex flex-wrap gap-[20px]  cursor-pointer mt-[30px]">
+      <div className="md:mt-[10px] flex flex-wrap gap-[10px]  cursor-pointer mt-[30px]">
         {games.length > 0 ? (
           games.map((game) => (
             <Link
@@ -38,9 +39,9 @@ const GameList = () => {
             >
               <div>
                 <img
-                  src={game.url_games_img}
+                  src={`${URL}${game.url_games_image}`}
                   alt={game.game_name}
-                  className="w-[100px] h-[100px] rounded md:w-[200px] md:h-[200px]"
+                  className="w-[100px] h-[100px] rounded-xl md:w-[200px] md:h-[200px]"
                 />
                 <div className="text-[16px] md:text-[20px] text-white w-[100px] mt-[5px] md:mt-[15px] md:w-[200px] break-words text-center font-semibold">
                   {game.game_name}

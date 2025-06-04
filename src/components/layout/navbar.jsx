@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import logoAvatar from "../../assets/img/hacker.png";
 import ArrowDown from "../../assets/img/image.png";
 import { useState } from "react";
-import cutomerService from "../../assets/img/support.png";
+import customerService from "../../assets/img/support.png";
 import Star from "../../assets/img/user.png";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -13,7 +13,8 @@ import { setAccessToken, logout } from "../../auth/authSlice.js";
 import { refreshToken, handleLogout } from "../../api/userApi.js";
 const ProfilLogin = "https://via.placeholder.com/30x30?text=Login";
 import { jwtDecode } from "jwt-decode";
-
+import logoPanelAdmin from "../../assets/img/user-gear.png";
+import logOut from "../../assets/img/logout.png";
 import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
@@ -97,7 +98,11 @@ const Navbar = () => {
     <>
       <div className="bg-[#2c092c]">
         <nav className="w-[360px] h-[56px] mx-auto flex items-center md:max-w-[1440px] md:w-full md:h-[94px] md:justify-between bg-[#2c092c]">
-          <div className="text-[14px] md:text-[18px] w-[268px] h-[44px] flex text-white items-center justify-between space-x-4 px-[25px] md:w-[520px] md:h-[44px]">
+          <div
+            className={`text-[14px] md:text-[18px] w-[268px] h-[44px] flex text-white items-center justify-between space-x-4 px-[25px] md:w-[520px] md:h-[44px]  transition-all duration-300 ease-in-out transform ${
+              isDropdownVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+          >
             <Link to="/">
               {" "}
               <img
@@ -190,7 +195,7 @@ const Navbar = () => {
               {/* Hubungi CS */}
               <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
                 <img
-                  src={cutomerService}
+                  src={customerService}
                   alt=""
                   className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
                 />
@@ -200,7 +205,7 @@ const Navbar = () => {
               {isValid && (
                 <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
                   <img
-                    src={cutomerService}
+                    src={logoPanelAdmin}
                     alt=""
                     className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
                   />
@@ -210,7 +215,7 @@ const Navbar = () => {
               {isValid && (
                 <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
                   <img
-                    src={Star}
+                    src={logOut}
                     alt=""
                     className="w-[16px] h-[16px] md:w-[32px] md:h-[32px] mr-[5px]"
                   />

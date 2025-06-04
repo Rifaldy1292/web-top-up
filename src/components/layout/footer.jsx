@@ -1,6 +1,6 @@
 import React from "react";
 
-import logoFooter from "../../assets/logo-1-16807831 (1).webp";
+import logoFooter from "../../assets/img/apple.png";
 
 const Footer = () => {
   return (
