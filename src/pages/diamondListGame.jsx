@@ -1,9 +1,8 @@
-import { CarouselDemo } from "../components/layout/CaresoulLayOut";
 import Navbar from "../components/layout/navbar";
-import GameList from "../components/layout/gameList";
-import Footer from "../components/layout/Footer";
+import Footer from "../components/layout/footer";
+
 import { ProfileForm } from "../components/layout/formUserId";
-import PaymentMethod from "@/components/layout/paymentMethod";
+
 import { useParams, useLocation } from "react-router-dom";
 import { fetchOneGame } from "../api/authApi";
 import { useState, useEffect } from "react";
