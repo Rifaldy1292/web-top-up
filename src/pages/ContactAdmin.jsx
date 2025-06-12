@@ -1,4 +1,4 @@
-import IndexLayout from "@/components/layout/indexLayout";
+import IndexLayout from "@/components/layout/IndexLayout";
 import React from "react";
 
 const ContactAdmin = () => {
