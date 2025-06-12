@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import IndexLayout from "@/components/layout/indexLayout";
+import IndexLayout from "@/components/layout/IndexLayout";
 import { useState } from "react";
 import { login } from "@/api/userApi";
 import { useDispatch, useSelector } from "react-redux";
