@@ -8,7 +8,7 @@ import Star from "../../assets/img/user.png";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import { setAccessToken, logout } from "../../auth/authSlice.js";
 import { refreshToken, handleLogout } from "../../api/userApi.js";
 const ProfilLogin = "https://via.placeholder.com/30x30?text=Login";
