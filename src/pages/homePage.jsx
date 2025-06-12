@@ -1,7 +1,7 @@
 import { CarouselDemo } from "../components/layout/CaresoulLayOut";
 import Navbar from "../components/layout/navbar";
 import GameList from "../components/layout/gameList";
-import Footer from "../components/layout/Footer";
+import Footer from "../components/layout/footer";
 
 const HomePage = () => {
   return (
