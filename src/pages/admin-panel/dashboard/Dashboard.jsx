@@ -61,13 +61,15 @@ const Dashboard = () => {
                 </CardContent>
               </div>
               <div className="px-6 pb-4 mt-auto">
-                <Button
-                  variant="outline"
-                  className="w-full text-sm bg-[#800080] text-white hover:bg-[#a020f0] hover:border-[#a020f0] transition-colors duration-200"
-                >
-                  {" "}
-                  <Link to={`/admin-dashboard/${item.type}`}>Lihat Detail</Link>
-                </Button>
+                <Link to={`/admin-dashboard/${item.type}`}>
+                  <Button
+                    variant="outline"
+                    className="w-full text-sm bg-[#800080] text-white hover:bg-[#a020f0] hover:border-[#a020f0] transition-colors duration-200"
+                  >
+                    {" "}
+                    Lihat Detail
+                  </Button>
+                </Link>
               </div>
             </Card>
           ))}

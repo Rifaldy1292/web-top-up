@@ -45,13 +45,9 @@ export const deleteGame = async (token, gameId) => {
   }
 };
 
-export const fetchOneGame = async (token, gameId) => {
+export const fetchOneGame = async (gameId) => {
   try {
-    const response = await axios.get(`${API_URL}/api/get-game/${gameId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${API_URL}/api/get-game/${gameId}`);
     return response.data;
   } catch (error) {
     console.error("Error delete game:", error);
@@ -122,15 +118,15 @@ export const addListDiamond = async (gameId, token, data) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error delete banner:", error);
+    console.error("Error adding list diamond:", error); // perbaiki pesan error
     return null;
   }
 };
+
 export const deleteListDiamond = async (gameId, token, idDiamond) => {
   try {
     const response = await axios.delete(
       `${API_URL}/api/delete-list-diamond/${gameId}/${idDiamond}`,
-
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -139,10 +135,11 @@ export const deleteListDiamond = async (gameId, token, idDiamond) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error delete list diamond:", error);
+    console.error("Error deleting list diamond:", error); // perbaiki pesan error
     return null;
   }
 };
+
 export const editListDiamond = async (gameId, token, idDiamond, data) => {
   try {
     const response = await axios.put(
@@ -156,7 +153,7 @@ export const editListDiamond = async (gameId, token, idDiamond, data) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error delete list diamond:", error);
+    console.error("Error editing list diamond:", error); // perbaiki pesan error
     return null;
   }
 };

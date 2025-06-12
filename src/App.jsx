@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
+import { Toaster } from "@/components/ui/toaster";
 const HomePage = lazy(() => import("./pages/homePage"));
 const DiamondListGame = lazy(() => import("./pages/diamondListGame"));
 const JasaJoki = lazy(() => import("./pages/jasa-joki/JasaJoki"));
@@ -16,12 +17,20 @@ const AllDiamondPage = lazy(() =>
   import("./pages/admin-panel/diamonds/DiamondList")
 );
 const BannerPage = lazy(() => import("./pages/admin-panel/banner/BannerPage"));
-
-function App() {
+function LoadingLogo() {
   return (
-    <Suspense
-      fallback={<div className="p-4 text-white">Memuat halaman...</div>}
-    >
+    <div className="flex justify-center items-center h-screen">
+      <img
+        src="/loading.png"
+        alt="Loading..."
+        className="w-20 h-20 animate-spin"
+      />
+    </div>
+  );
+}
+function App({ children }) {
+  return (
+    <Suspense fallback={<LoadingLogo />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/diamond-list-game/:id" element={<DiamondListGame />} />
@@ -44,6 +53,8 @@ function App() {
         />
         <Route path="/admin-dashboard/banner" element={<BannerPage />} />
       </Routes>
+      {children}
+      <Toaster />
     </Suspense>
   );
 }

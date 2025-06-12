@@ -15,16 +15,8 @@ const PaymentMethod = ({ onPaymentSelect }) => {
       <a className="text-white font-bold block mb-5">Pilih Metode Pembayaran</a>
       {[
         {
-          label: "Gopay",
+          label: "Qris",
           icon: "/path/to/gopay-icon.png",
-        },
-        {
-          label: "Bank Transfer",
-          icon: "/path/to/bank-transfer-icon.png",
-        },
-        {
-          label: "Cash on Delivery",
-          icon: "/path/to/cod-icon.png",
         },
       ].map((method) => (
         <div

@@ -7,8 +7,10 @@ import { login } from "@/api/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccessToken } from "../../auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
@@ -33,6 +35,10 @@ export default function LoginPage() {
       console.log("Pendaftaran berhasil:", response);
       dispatch(setAccessToken(response.data.token));
       console.log("token", response.data.token);
+      toast({
+        title: "Login Berhasil",
+        description: "Anda berhasil masuk ke akun Anda.",
+      });
       navigate("/");
       setFormData({
         email: "",

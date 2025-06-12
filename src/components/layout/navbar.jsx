@@ -99,16 +99,14 @@ const Navbar = () => {
       <div className="bg-[#2c092c]">
         <nav className="w-[360px] h-[56px] mx-auto flex items-center md:max-w-[1440px] md:w-full md:h-[94px] md:justify-between bg-[#2c092c]">
           <div
-            className={`text-[14px] md:text-[18px] w-[268px] h-[44px] flex text-white items-center justify-between space-x-4 px-[25px] md:w-[520px] md:h-[44px]  transition-all duration-300 ease-in-out transform ${
-              isDropdownVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-            }`}
+            className={`text-[14px] md:text-[18px] w-[268px] h-[44px] flex text-white items-center justify-between space-x-4 px-[25px] md:w-[520px] md:h-[44px]  `}
           >
             <Link to="/">
               {" "}
               <img
                 src={LogoNavbardevice}
                 alt=""
-                className="w-[20px] h-[44px] md:w-[50px] md:h-[100px] object-contain"
+                className="w-[50px] h-[50px] md:w-[50px] md:h-[100px] object-contain"
               />
             </Link>
 
@@ -167,7 +165,11 @@ const Navbar = () => {
           </div>
         </nav>
         {isDropdownVisible && ( // Pastikan ini sesuai dengan state
-          <div className=" relative w-[300px] md:w-full md:max-w-[1400px]   mx-auto z-10">
+          <div
+            className={` relative w-[300px] md:w-full md:max-w-[1400px]   mx-auto z-10 transition-all duration-300 ease-in-out transform ${
+              isDropdownVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+          >
             <div className="absolute right-3 mt-2 text-white shadow-sm text-[11px] md:text-[20px] w-[113px] h-auto md:w-[226px] md:gap-10 gap-5 bg-[#2c092c] rounded-[4px] md:rounded-[10px] flex flex-col justify-between ml-auto p-2 md:p-[15px]">
               {!isValid && (
                 <div className="cursor-pointer flex items-center space-x-1 hover:text-yellow-400 transition-colors duration-200">
@@ -231,3 +233,50 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// import { Link } from "react-router-dom";
+// import { Button } from "@/components/ui/button";
+// import { Menu } from "lucide-react";
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
+// export default function Navbar() {
+//   return (
+//     <nav className="w-full flex items-center justify-between px-4 py-3 bg-background shadow-md">
+//       {/* Logo */}
+//       <Link href="/" className="text-lg font-semibold">
+//         MyApp
+//       </Link>
+
+//       {/* Desktop Menu */}
+//       <div className="hidden md:flex items-center gap-6">
+//         <Link href="/features" className="hover:text-purple-600 transition">
+//           Features
+//         </Link>
+//         <Link href="/pricing" className="hover:text-purple-600 transition">
+//           Pricing
+//         </Link>
+//         <Link href="/about" className="hover:text-purple-600 transition">
+//           About
+//         </Link>
+//         <Button>Sign In</Button>
+//       </div>
+
+//       {/* Mobile Menu */}
+//       <div className="md:hidden">
+//         <Sheet>
+//           <SheetTrigger asChild>
+//             <Button variant="outline" size="icon">
+//               <Menu className="h-5 w-5" />
+//             </Button>
+//           </SheetTrigger>
+//           <SheetContent side="right" className="flex flex-col gap-4 pt-10">
+//             <Link href="/features">Features</Link>
+//             <Link href="/pricing">Pricing</Link>
+//             <Link href="/about">About</Link>
+//             <Button className="mt-4">Sign In</Button>
+//           </SheetContent>
+//         </Sheet>
+//       </div>
+//     </nav>
+//   );
+// }

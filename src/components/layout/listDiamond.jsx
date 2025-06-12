@@ -35,7 +35,7 @@ const ListDiamond = ({ onDiamondSelect, tittle }) => {
       <div className="w-full max-w-[360px] md:max-w-full mx-auto flex flex-wrap gap-4 justify-center md:justify-start cursor-pointer">
         {gameData.map((diamond, index) => (
           <div
-            className={`relative w-[150px] h-[80px] rounded-xl p-3 text-white transition-all duration-200 border 
+            className={`relative w-[150px] h-[90px] rounded-xl p-3 text-white transition-all duration-200 border 
         ${
           selectedDiamond === diamond.price
             ? "bg-gradient-to-br from-[#6a1b9a] to-[#8e24aa] border-purple-300 shadow-lg"
@@ -56,7 +56,7 @@ const ListDiamond = ({ onDiamondSelect, tittle }) => {
               htmlFor={`diamond-${diamond.packet_name}`}
               className="flex flex-col justify-center items-center h-full text-center font-medium text-sm md:text-base leading-tight"
             >
-              <span>{diamond.packet_name}</span>
+              <span className="text-sm">{diamond.packet_name}</span>
               <span className="mt-1 text-sm text-gray-300">{`Rp ${new Intl.NumberFormat(
                 "id-ID"
               ).format(diamond.price)}`}</span>

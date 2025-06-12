@@ -19,12 +19,14 @@ import {
 } from "@/components/ui/dialog";
 import { useSelector } from "react-redux";
 const BannerPage = () => {
+  const url = import.meta.env.VITE_API_URL;
   const token = useSelector((state) => state.auth.accessToken);
   const [banners, setBanners] = useState([]);
   const [showTambahModal, setShowTambahModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  console.log(url);
   const handleFetchBanners = async () => {
     try {
       const response = await fetchBanner();
@@ -59,7 +61,7 @@ const BannerPage = () => {
   return (
     <IndexLayout>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <div className="p-6 space-y-4">
+        <div className="mx-auto p-6 space-y-4 max-w-7xl">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-white">Daftar Banner</h1>
             <Button onClick={() => setShowTambahModal(true)}>
@@ -74,7 +76,7 @@ const BannerPage = () => {
                 className="overflow-hidden bg-[#2c092c]  relative h-full md:h-full"
               >
                 <img
-                  src={banner.url_banner_image}
+                  src={`${url}/${banner.url_banner_image}`}
                   alt={banner.title}
                   className="w-full h-40 object-cover"
                 />{" "}
