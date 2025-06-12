@@ -7,10 +7,10 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div className="md:w-[1440px]  w-[360px] mx-auto mt-[16px]">
+      <div>
         <CarouselDemo />
         <GameList />
-      </div>{" "}
+      </div>
       <Footer />
     </>
   );

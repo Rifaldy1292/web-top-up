@@ -4,18 +4,47 @@ import GameList from "../components/layout/gameList";
 import Footer from "../components/layout/Footer";
 import { ProfileForm } from "../components/layout/formUserId";
 import PaymentMethod from "@/components/layout/paymentMethod";
+import { useParams, useLocation } from "react-router-dom";
+import { fetchOneGame } from "../api/authApi";
+import { useState, useEffect } from "react";
+
 const DiamondListGame = () => {
+  const { id } = useParams();
+  const location = useLocation();
+  const gameName = location.state?.gameName; // Ambil parameter dari URL
+
+  const [games, setGames] = useState([]);
+  const URL = import.meta.env.VITE_API_URL;
+  console.log("URL:", URL);
+  useEffect(() => {
+    const getGames = async () => {
+      try {
+        const data = await fetchOneGame(id);
+        console.log("Data dari API:", data);
+        if (data) {
+          setGames(data);
+          console.log(data);
+          console.log(`${URL}/${data.data.url_game_banner}`);
+        }
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+    };
+
+    getGames();
+  }, []);
   return (
     <>
       <Navbar />
-      <div className="md:w-[1440px]  w-[360px] mx-auto mt-[10px]">
-        <h5 className="font-bold text-white">Mobile Legends : Bang Bang</h5>
+      <div className="w-full md:max-w-[1440px] max-w-[350px] mx-auto px-4 mt-2">
+        <h5 className="font-bold text-white">{gameName}</h5>
         <img
-          className="w-[360px] md:w-[1440px] h-[162px]  md:h-[350px] rounded mt-[10px]"
-          src="https://via.placeholder.com/95x143/FFFFFF/000000?text=No+Image"
-          alt=""
+          className="w-full h-[162px] md:h-[350px] rounded mt-2 object-cover"
+          src={`${URL}/${games?.data?.url_game_banner}`}
+          alt="Game Banner"
         />
-      </div>{" "}
+      </div>
+
       <ProfileForm />
       <Footer />
     </>
