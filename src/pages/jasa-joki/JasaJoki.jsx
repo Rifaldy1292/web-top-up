@@ -1,6 +1,6 @@
 // pages/JokiRankPage.jsx
 import React, { useState } from "react";
-import Navbar from "../../components/layout/Navbar";
+import Navbar from "../../components/layout/navbar";
 import Footer from "@/components/layout/footer";
 const JasaJoki = () => {
   const [formData, setFormData] = useState({
