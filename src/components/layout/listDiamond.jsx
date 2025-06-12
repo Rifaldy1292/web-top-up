@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ListDiamondArray from "../../assets/priceList.json";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { fetchDiamondGames } from "../../api/userApi";

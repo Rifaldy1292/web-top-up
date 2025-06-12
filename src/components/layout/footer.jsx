@@ -1,5 +1,3 @@
-import React from "react";
-
 import logoFooter from "../../assets/img/apple.png";
 
 const Footer = () => {
