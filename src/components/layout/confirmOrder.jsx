@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { CheckIcon } from "@radix-ui/react-icons";
-
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,7 @@ export function ConfirmOrder({
   ...props
 }) {
   const [loading, setLoading] = useState(false); // Tambahkan loading state
-  console.log(`proops ${notifications}`);
+
   const handleCancle = () => {
     handleClosChild(false);
   };
@@ -63,22 +63,13 @@ export function ConfirmOrder({
 
       const response = await axios.post(url, body, { headers });
 
-      console.log("Response Data:", response.data);
-
-      // Cek apakah response mengandung token
       if (response.data?.token) {
         const transactionToken = response.data.token;
-        onConfirm(); // Menampilkan pop-up Midtrans Snap
+        onConfirm();
         window.snap.pay(transactionToken, {
           onSuccess: function (result) {
-            // Menangani jika pembayaran berhasil
             console.log("Pembayaran berhasil:", result);
             alert("Pembayaran berhasil!");
-
-            // Anda bisa mengarahkan pengguna ke halaman lain, misalnya halaman terima kasih
-            // Ganti dengan URL yang sesuai
-
-            // Atau kirim status pembayaran ke backend untuk pembaruan data
           },
           onPending: function (result) {
             console.log("Menunggu pembayaran:", result);
@@ -112,68 +103,75 @@ export function ConfirmOrder({
   };
 
   return (
-    <Card
-      className={cn(
-        "w-[350px] text-white h-[450px] md:h-[450px] z-[2] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2c092c] ",
-        className
-      )}
-    >
-      <CardHeader>
-        <CardTitle>Detail pesanan</CardTitle>
-        <CardDescription>
-          Mohon konfirmasi data anda sudah benar.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <div>
-          {notifications.map((notification, index) => (
-            <div
-              key={index}
-              className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
-            >
-              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {notification.title}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {notification.description}
-                </p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <Card
+        className={cn(
+          "relative w-[350px] h-[450px] md:h-[450px] z-[60]",
+          className
+        )}
+      >
+        {/* Tombol silang */}
+        <button
+          onClick={handleCancle}
+          className="absolute top-2 right-2 p-1 rounded-full hover:bg-muted"
+        >
+          <X className="w-5 h-5 text-muted-foreground" />
+        </button>
+
+        <CardHeader>
+          <CardTitle>Detail pesanan</CardTitle>
+          <CardDescription>
+            Mohon konfirmasi data anda sudah benar.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="grid gap-4 overflow-y-auto">
+          <div>
+            {notifications.map((notification, index) => (
+              <div
+                key={index}
+                className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+              >
+                <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {notification.title}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {notification.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-      <CardFooter>
-        <div className=" gap-5 flex w-full">
-          <Button
-            className="w-full bg-[#800080]"
-            onClick={handleCancle}
-            disabled={loading}
-          >
-            {loading ? (
-              "Processing..."
-            ) : (
-              <>
-                <CheckIcon /> Cancle
-              </>
-            )}
-          </Button>
-          <Button
-            className="w-full bg-[#800080]"
-            onClick={handleConfirm}
-            disabled={loading}
-          >
-            {loading ? (
-              "Processing..."
-            ) : (
-              <>
-                <CheckIcon /> Confirm
-              </>
-            )}
-          </Button>
-        </div>
-      </CardFooter>
-    </Card>
+            ))}
+          </div>
+        </CardContent>
+
+        <CardFooter>
+          <div className="flex gap-4 w-full">
+            <Button
+              className="w-full"
+              onClick={handleConfirm}
+              disabled={loading}
+            >
+              {loading ? (
+                "Processing..."
+              ) : (
+                <>
+                  <CheckIcon className="mr-1 w-4 h-4" /> Confirm
+                </>
+              )}
+            </Button>
+            <Button
+              className="w-full"
+              variant="outline"
+              onClick={handleCancle}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : <>Cancle</>}
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

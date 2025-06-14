@@ -5,15 +5,13 @@ import { fetchGames } from "../../api/userApi"; // Pastikan API ini benar
 const GameList = () => {
   const [games, setGames] = useState([]);
   const URL = import.meta.env.VITE_API_URL;
-  console.log("URL:", URL);
   useEffect(() => {
     const getGames = async () => {
       try {
         const data = await fetchGames();
-        console.log("Data dari API:", data);
+
         if (data) {
           setGames(data);
-          console.log(data);
         }
       } catch (error) {
         console.error("Error fetching games:", error);
@@ -24,12 +22,10 @@ const GameList = () => {
   }, []);
 
   return (
-    <div className="mt-[16px] w-[360px] mx-auto md:w-auto md:max-w-[1440px] p-5">
-      <h6 className="font-bold text-white text-[16px] md:text-[20px] mt-[30px]">
-        Daftar Games
-      </h6>
+    <div className=" mx-auto w-auto max-w-7xl px-5 md:p-5">
+      <h6 className="font-bold  text-xl md:text-[20px] ">Daftar Games</h6>
 
-      <div className="md:mt-[10px] flex flex-wrap gap-[10px]  cursor-pointer mt-[30px]">
+      <div className=" flex flex-wrap  mx-auto gap-5 cursor-pointer mt-5">
         {games.length > 0 ? (
           games.map((game) => (
             <Link
@@ -38,19 +34,22 @@ const GameList = () => {
               state={{ gameName: game.game_name }}
             >
               <div>
-                <img
-                  src={`${URL}${game.url_games_image}`}
-                  alt={game.game_name}
-                  className="w-[100px] h-[100px] rounded-xl md:w-[200px] md:h-[200px]"
-                />
-                <div className="text-[16px] md:text-[20px] text-white w-[100px] mt-[5px] md:mt-[15px] md:w-[200px] break-words text-center font-semibold">
+                {game?.url_games_image && (
+                  <img
+                    src={`${URL}${game.url_games_image}`}
+                    alt={game.game_name}
+                    className="w-[100px] h-[100px] shadow rounded-xl md:w-[200px] md:h-[200px]"
+                  />
+                )}
+
+                <div className="text-[16px] md:text-[20px] w-[100px] mt-[5px] md:mt-[15px] md:w-[200px] break-words text-center font-semibold">
                   {game.game_name}
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <div className="text-white">Tidak ada game yang ditemukan</div>
+          <div className="">Tidak ada game yang ditemukan</div>
         )}
       </div>
     </div>

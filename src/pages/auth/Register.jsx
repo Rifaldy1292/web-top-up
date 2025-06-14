@@ -51,112 +51,95 @@ export default function RegisterPage() {
     console.log(formData);
   };
   return (
-    <IndexLayout>
-      <div className="min-h-screen flex items-center justify-center  px-4">
-        <div className="w-full max-w-md bg-[#2c092c] rounded-2xl shadow-lg p-6 md:p-10">
-          <h1 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
-            Buat Akun Baru
-          </h1>
-          <form
-            className="space-y-5"
-            autocomplete="off"
-            onSubmit={handleSubmit}
-          >
-            <div>
-              <label className="block text-sm font-medium text-white mb-1">
-                Username
-              </label>
-              <Input
-                autoComplete="off"
-                onChange={handleChange}
-                name="username"
-                value={formData.username}
-                type="text"
-                placeholder="Masukkan username "
-                className=" bg-white/10  text-white border border-white/20 placeholder:text-white/60"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white mb-1">
-                Email
-              </label>
-              <Input
-                autoComplete="off"
-                onChange={handleChange}
-                name="email"
-                value={formData.email}
-                type="email"
-                placeholder="Masukkan email"
-                className="bg-white/10 text-white border border-white/20 placeholder:text-white/60"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-white mb-1">
-                No Telp
-              </label>
-              <Input
-                autoComplete="off"
-                onChange={handleChange}
-                name="phone_number"
-                value={formData.phone_number}
-                type="text"
-                placeholder="Masukkan no telp"
-                className="bg-white/10 text-white border border-white/20 placeholder:text-white/60"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white mb-1">
-                Password
-              </label>
-              <Input
-                onChange={handleChange}
-                name="password"
-                value={formData.password}
-                type="password"
-                placeholder="Masukkan password"
-                className="bg-white/10 text-white border border-white/20 placeholder:text-white/60"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white mb-1">
-                Konfirmasi Password
-              </label>
-              <Input
-                onChange={handleChange}
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                type="password"
-                placeholder="Konfirmasi password"
-                className="bg-white/10 text-white border border-white/20 placeholder:text-white/60"
-              />
-            </div>
-            <div>
-              {eror && (
-                <Label className="text-red-500 text-sm mt-2">{eror}</Label>
-              )}
-              {succes && (
-                <Label className="text-green-500 text-sm mt-2">{succes}</Label>
-              )}
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-[#ff00cc] hover:bg-[#e600b8] transition-colors"
-            >
-              Daftar
-            </Button>
-          </form>
-
-          <div className="text-sm text-white/70 text-center mt-4 space-y-1">
-            <p>
-              Sudah punya akun?{" "}
-              <Link to="/login" className="text-pink-400 hover:underline">
-                Masuk di sini
-              </Link>
-            </p>
+    <div className=" flex items-center justify-center mt-5  px-4">
+      <div className="w-full max-w-md  rounded-2xl shadow-lg p-6 md:p-10">
+        <h1 className="text-2xl md:text-3xl font-bold  text-center mb-6">
+          Buat Akun Baru
+        </h1>
+        <form className="space-y-5" autocomplete="off" onSubmit={handleSubmit}>
+          <div>
+            <label className="block text-sm font-medium  mb-1">Username</label>
+            <Input
+              autoComplete="off"
+              onChange={handleChange}
+              name="username"
+              value={formData.username}
+              type="text"
+              placeholder="Masukkan username "
+              className="    border  "
+            />
           </div>
+          <div>
+            <label className="block text-sm font-medium  mb-1">Email</label>
+            <Input
+              autoComplete="off"
+              onChange={handleChange}
+              name="email"
+              value={formData.email}
+              type="email"
+              placeholder="Masukkan email"
+              className=""
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium  mb-1">No Telp</label>
+            <Input
+              autoComplete="off"
+              onChange={handleChange}
+              name="phone_number"
+              value={formData.phone_number}
+              type="text"
+              placeholder="Masukkan no telp"
+              className=""
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium  mb-1">Password</label>
+            <Input
+              onChange={handleChange}
+              name="password"
+              value={formData.password}
+              type="password"
+              placeholder="Masukkan password"
+              className=""
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium  mb-1">
+              Konfirmasi Password
+            </label>
+            <Input
+              onChange={handleChange}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              type="password"
+              placeholder="Konfirmasi password"
+              className=""
+            />
+          </div>
+          <div>
+            {eror && (
+              <Label className="text-red-500 text-sm mt-2">{eror}</Label>
+            )}
+            {succes && (
+              <Label className="text-green-500 text-sm mt-2">{succes}</Label>
+            )}
+          </div>
+          <Button type="submit" className="w-full   transition-colors">
+            Daftar
+          </Button>
+        </form>
+
+        <div className="text-sm  text-center mt-4 space-y-1">
+          <p>
+            Sudah punya akun?{" "}
+            <Link to="/masuk" className=" hover:underline">
+              Masuk di sini
+            </Link>
+          </p>
         </div>
       </div>
-    </IndexLayout>
+    </div>
   );
 }

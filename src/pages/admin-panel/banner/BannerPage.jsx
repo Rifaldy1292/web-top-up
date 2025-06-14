@@ -25,13 +25,12 @@ const BannerPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  console.log(url);
+
   const handleFetchBanners = async () => {
     try {
       const response = await fetchBanner();
       if (response) {
         setBanners(response);
-        console.log("Banners fetched successfully:", response);
       }
     } catch (error) {}
   };
@@ -39,7 +38,6 @@ const BannerPage = () => {
     try {
       const response = await deleteBanner(token, e);
       if (response) {
-        console.log("banner berhasil dihapus:", response);
         handleFetchBanners();
       } else {
         console.error("gagal menghapus banner ");
@@ -49,7 +47,7 @@ const BannerPage = () => {
       console.error("Error deleting banner:", error);
       return;
     }
-    console.log("Menghapus banner dengan ID:");
+
     setOpenDialog(false);
   };
 
@@ -58,11 +56,11 @@ const BannerPage = () => {
   }, []);
 
   return (
-    <IndexLayout>
+    <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <div className="mx-auto p-6 space-y-4 max-w-7xl">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-white">Daftar Banner</h1>
+            <h1 className="text-2xl font-bold">Daftar Banner</h1>
             <Button onClick={() => setShowTambahModal(true)}>
               <Plus className="mr-2" size={16} /> Tambah Banner
             </Button>
@@ -72,15 +70,15 @@ const BannerPage = () => {
             {banners.map((banner) => (
               <Card
                 key={banner.id}
-                className="overflow-hidden bg-[#2c092c]  relative h-full md:h-full"
+                className="overflow-hidden  relative h-full md:h-full"
               >
                 <img
-                  src={`${url}/${banner.url_banner_image}`}
+                  src={`${url}${banner.url_banner_image}`}
                   alt={banner.title}
                   className="w-full h-40 object-cover"
                 />{" "}
                 <div className="p-4">
-                  <h2 className="text-lg text-white font-semibold">
+                  <h2 className="text-lg  font-semibold">
                     {banner.banner_name}
                   </h2>
                   <div className="flex gap-2 mt-2">
@@ -123,7 +121,7 @@ const BannerPage = () => {
             }}
           />
         </div>
-        <DialogContent className="bg-[#2c092c] sm:max-w-[425px] rounded-md max-w-[350px] border border-[#3a0b3a] text-white">
+        <DialogContent className=" sm:max-w-[425px] rounded-md max-w-[350px] border ">
           <DialogHeader>
             <DialogTitle>Konfirmasi Penghapusan</DialogTitle>
             <DialogDescription className="text-white/70">
@@ -150,7 +148,7 @@ const BannerPage = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </IndexLayout>
+    </>
   );
 };
 

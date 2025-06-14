@@ -17,7 +17,7 @@ const ModalTambahBanner = ({ open, onClose, onSubmit }) => {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const token = useSelector((state) => state.auth.accessToken);
-  console.log("Token:", token);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -33,11 +33,7 @@ const ModalTambahBanner = ({ open, onClose, onSubmit }) => {
       image: preview, // untuk tampilan, file tetap disimpan di memori lokal
       file: imageFile, // bisa kamu kirim ke server atau Firebase nanti
     });
-    console.log("Banner submitted:", {
-      title,
-      image: preview,
-      file: imageFile,
-    });
+
     const response = await addBanner(token, {
       title,
       image: preview, // untuk tampilan, file tetap disimpan di memori lokal
@@ -76,7 +72,7 @@ const ModalTambahBanner = ({ open, onClose, onSubmit }) => {
             )}
           </div>
         </div>
-        <DialogFooter className="pt-4">
+        <DialogFooter className="pt-4 gap-2">
           <Button variant="outline" onClick={onClose}>
             Batal
           </Button>

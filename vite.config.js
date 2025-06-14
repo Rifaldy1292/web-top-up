@@ -11,6 +11,12 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ["5e31-111-94-139-167.ngrok-free.app"],
+    proxy: {
+      "/api-games": {
+        target: "https://api-games.ilhdev.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-games/, ""),
+      },
+    },
   },
 });

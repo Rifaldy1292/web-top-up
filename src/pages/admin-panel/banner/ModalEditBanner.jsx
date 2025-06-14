@@ -64,11 +64,13 @@ const ModalEditBanner = ({ open, onClose, banner, onSubmit }) => {
             )}
           </div>
         </div>
-        <DialogFooter className="pt-4">
+        <DialogFooter className="pt-4 ">
           <Button variant="outline" onClick={onClose}>
             Batal
           </Button>
-          <Button onClick={handleSubmit}>Simpan Perubahan</Button>
+          <Button onClick={handleSubmit} className="mt-5">
+            Simpan Perubahan
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

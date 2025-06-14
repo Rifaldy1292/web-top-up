@@ -23,7 +23,8 @@ export default [
       "import/resolver": {
         node: {
           extensions: [".js", ".jsx"],
-        },
+        }, jsconfig: {
+          config: 'jsconfig.json',
       },
     },
     plugins: {

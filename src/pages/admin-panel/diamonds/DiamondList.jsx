@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import {
   Dialog,
   DialogContent,
@@ -47,7 +48,6 @@ const AllDiamondPage = () => {
     if (!id) return; // Pastikan id ada sebelum fetching
     const data = await fetchDiamondGames(id);
     setDiamonds(data);
-    console.log(data);
   };
   const handleConfirm = async () => {
     if (!isEditing) {
@@ -60,7 +60,7 @@ const AllDiamondPage = () => {
           game_id: id,
         };
         const response = await addListDiamond(id, token, dataToSend);
-        console.log("Berhasil tambah diamond:", response);
+
         setModalData({
           packet_name: "",
           amount: "",
@@ -89,7 +89,7 @@ const AllDiamondPage = () => {
           selectedDiamond.id,
           dataToSend
         );
-        console.log("Berhasil tambah diamond:", response);
+
         setIsDialogOpen(false);
         getGameData();
         // Misalnya: tutup modal atau refresh data
@@ -101,7 +101,6 @@ const AllDiamondPage = () => {
     }
   };
   const handleEdit = (item) => {
-    console.log("Edit item:", item);
     setModalData(item);
     setIsEditing(true);
     setIsDialogOpen(true);
@@ -111,12 +110,8 @@ const AllDiamondPage = () => {
     try {
       const response = await deleteListDiamond(id, token, idDiamond);
       if (response) {
-        console.log("Berhasil hapus diamond:", response);
-
         setOpenDialog(false);
         getGameData();
-      } else {
-        console.log("Gagal hapus diamond");
       }
     } catch (error) {
       console.error("Gagal hapus diamond:", error);
@@ -134,20 +129,17 @@ const AllDiamondPage = () => {
     getGameData();
   }, [id]);
   return (
-    <IndexLayout>
-      {" "}
+    <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <div className="p-4">
-          <Card className="bg-[#2c092c] border border-[#3a0b3a] text-white max-w-4xl mx-auto shadow-lg min-h-fit">
+          <Card className="border   max-w-4xl mx-auto shadow-lg min-h-fit">
             <CardHeader className="flex justify-between items-center">
               <CardTitle className="text-2xl">Daftar Diamond</CardTitle>
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-[#800080] hover:bg-[#9c27b0]">
-                    Tambah
-                  </Button>
+                  <Button className=" ">Tambah</Button>
                 </DialogTrigger>
-                <DialogContent className="bg-[#2c092c] border border-[#3a0b3a] text-white">
+                <DialogContent className=" border ">
                   <DialogHeader>
                     <DialogTitle>
                       {isEditing ? "Edit Diamond" : "Tambah Diamond"}
@@ -158,7 +150,7 @@ const AllDiamondPage = () => {
                       <Label htmlFor="jumlah">Jumlah Diamond</Label>
                       <Input
                         id="jumlah"
-                        className="bg-[#3a0b3a] border-none text-white"
+                        className=""
                         value={modalData.packet_name}
                         onChange={(e) =>
                           setModalData({
@@ -172,7 +164,7 @@ const AllDiamondPage = () => {
                       <Label htmlFor="harga">Harga</Label>
                       <Input
                         id="harga"
-                        className="bg-[#3a0b3a] border-none text-white"
+                        className=""
                         value={modalData.price}
                         onChange={(e) =>
                           setModalData({ ...modalData, harga: e.target.value })
@@ -180,10 +172,7 @@ const AllDiamondPage = () => {
                       />
                     </div>
                     <div className="flex space-x-2">
-                      <Button
-                        onClick={handleConfirm}
-                        className="bg-[#800080] hover:bg-[#9c27b0] flex-1"
-                      >
+                      <Button onClick={handleConfirm} className=" flex-1">
                         Simpan
                       </Button>
                       <DialogClose asChild>
@@ -215,7 +204,7 @@ const AllDiamondPage = () => {
                     {diamonds.map((item) => (
                       <TableRow
                         key={item.id}
-                        className="border-b border-[#3a0b3a] last:border-0"
+                        className="border-b  last:border-0"
                       >
                         <TableCell data-label="Jumlah Diamond">
                           {item.packet_name} Diamonds
@@ -224,7 +213,7 @@ const AllDiamondPage = () => {
                         <TableCell data-label="Aksi" className="text-center">
                           <div className="flex justify-center space-x-2">
                             <Button
-                              className="bg-[#800080] hover:bg-[#9c27b0] text-white"
+                              className=""
                               onClick={() => {
                                 setSelectedDiamond(item);
                                 handleEdit(item);
@@ -253,7 +242,7 @@ const AllDiamondPage = () => {
             </CardContent>
           </Card>
         </div>
-        <DialogContent className="bg-[#2c092c] border  sm:max-w-[425px] border-[#3a0b3a] text-white">
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle>Konfirmasi Penghapusan</DialogTitle>
             <DialogDescription className="text-white/70">
@@ -282,7 +271,7 @@ const AllDiamondPage = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </IndexLayout>
+    </>
   );
 };
 
