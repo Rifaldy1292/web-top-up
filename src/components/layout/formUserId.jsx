@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { ConfirmOrder } from "@/components/layout/confirmOrder";
 import PaymentMethod from "./paymentMethod";
 import axios from "axios";
+import { cekIdServer } from "@/api/userApi";
 
 // Validasi schema dengan Zod
 const formSchema = z.object({
@@ -47,12 +48,8 @@ export function ProfileForm() {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `https://api-games.ilhdev.com/cek/mobile-legends?id=${data.id}&zone=${data.server}&apikey=111`,
-        {
-          params: { id: data.id, server: data.server },
-        }
-      );
+
+      const response = await cekIdServer(data.id, data.server);
 
       const nickname = response.data.data.username || "Tidak ditemukan";
 

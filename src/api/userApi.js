@@ -89,3 +89,18 @@ export const fetchBanner = async () => {
     return null;
   }
 };
+
+export const cekIdServer = async (id, server) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/cek-id-server`, {
+      params: {
+        id,
+        server,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error delete game:", error);
+    return null;
+  }
+};
