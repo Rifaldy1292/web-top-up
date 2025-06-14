@@ -48,7 +48,7 @@ export function ProfileForm() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `/api-games/cek/mobile-legends?id=${data.id}&zone=${data.server}&apikey=111`,
+        `https://api-games.ilhdev.com/cek/mobile-legends?id=${data.id}&zone=${data.server}&apikey=111`,
         {
           params: { id: data.id, server: data.server },
         }
@@ -66,6 +66,7 @@ export function ProfileForm() {
       setOrderData(notifications);
       setConfirmOrderVisible(true);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching nickname:", error);
     }
   };

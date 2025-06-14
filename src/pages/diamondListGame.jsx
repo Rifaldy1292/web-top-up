@@ -37,7 +37,7 @@ const DiamondListGame = () => {
 
         {games?.data?.url_game_banner && (
           <img
-            className="w-full mt-5 h-[162px] md:h-[350px] rounded mt-2 object-cover"
+            className="w-full mt-5 h-[162px] md:h-[350px] rounded  object-cover"
             src={`${URL}${games.data.url_game_banner}`}
             alt="Banner Game"
           />
