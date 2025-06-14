@@ -1,61 +1,82 @@
-import logoFooter from "../../assets/img/apple.png";
+import { Card, CardContent } from "@/components/ui/card";
+import { Mail, HelpCircle } from "lucide-react";
+import logoFooter from "@/assets/img/apple.png"; // alias modern
 
 const Footer = () => {
   return (
-    <div className="w-full border-t border-gray-600 mt-10 text-white">
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        {/* Baris 1: Logo dan deskripsi (full width di mobile) */}
-        <div className="mb-10 md:mb-0 md:flex md:justify-between md:items-start md:space-x-10">
-          {/* Logo */}
-          <div className="mb-6 md:mb-0 md:w-1/3">
+    <footer className="w-full border-t bg-background text-foreground mt-10">
+      <div className="max-w-7xl mx-auto px-4 mt-10 grid grid-cols-1 md:grid-cols-3 gap-2">
+        {/* Logo dan deskripsi */}
+        <Card className="bg-transparent shadow-none border-none h-auto md:h-auto">
+          <CardContent className="p-0">
             <img
               src={logoFooter}
               alt="Logo Footer"
-              className="w-[100px] h-auto mb-3"
+              className="w-[40px] md:w-[45px] mb-4"
             />
-            <p className="text-gray-400 text-sm">
+            <p className="text-sm text-muted-foreground">
               © 2024 - Rifky Rifaldy. Semua hak dilindungi.
             </p>
-          </div>
+          </CardContent>
+        </Card>
 
-          {/* Baris 2: 2 kolom navigasi & bantuan */}
-          <div className="grid grid-cols-2 gap-8 md:flex md:w-2/3">
-            {/* Navigasi */}
-            <div className="flex flex-col space-y-3">
-              <h3 className="text-lg font-semibold mb-2">Tentang Kami</h3>
-              <a href="#" className="hover:underline text-gray-300">
-                Kebijakan Privasi
-              </a>
-              <a href="#" className="hover:underline text-gray-300">
-                Syarat & Ketentuan
-              </a>
-              <a href="#" className="hover:underline text-gray-300">
-                Cara Top Up
-              </a>
-            </div>
+        {/* Navigasi */}
+        <Card className="bg-transparent shadow-none border-none h-auto mt-5 md:h-auto">
+          <CardContent className="p-0">
+            <h3 className="text-base font-semibold mb-3">Tentang Kami</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <a href="#" className="hover:underline">
+                  Kebijakan Privasi
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Syarat & Ketentuan
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Cara Top Up
+                </a>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
 
-            {/* Bantuan */}
-            <div className="flex flex-col space-y-3">
-              <h3 className="text-lg font-semibold mb-2">Bantuan</h3>
-              <a href="#" className="hover:underline text-gray-300">
-                Hubungi CS
-              </a>
-              <a href="#" className="hover:underline text-gray-300">
-                FAQ
-              </a>
-              <a href="#" className="hover:underline text-gray-300">
-                Panduan Pemula
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile-only: credit */}
-        <div className="text-center text-gray-500 text-sm mt-6 mb-4 md:hidden">
-          Dibuat dengan ❤️ oleh Rifky Rifaldy
-        </div>
+        {/* Bantuan */}
+        <Card className="bg-transparent shadow-none border-none h-auto md:h-auto mt-5">
+          <CardContent className="p-0">
+            <h3 className="text-base font-semibold mb-3">Bantuan</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2">
+                <Mail size={16} />{" "}
+                <a href="#" className="hover:underline">
+                  Hubungi CS
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <HelpCircle size={16} />{" "}
+                <a href="#" className="hover:underline">
+                  FAQ
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <HelpCircle size={16} />{" "}
+                <a href="#" className="hover:underline">
+                  Panduan Pemula
+                </a>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+
+      {/* Credit bawah (mobile-centered) */}
+      <div className="text-center text-muted-foreground text-xs  my-8 ">
+        Dibuat dengan ❤️ oleh Rifky Rifaldy
+      </div>
+    </footer>
   );
 };
 

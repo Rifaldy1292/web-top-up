@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const fetchGames = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/games`);
-    console.log(`${API_URL}/api/games`);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);

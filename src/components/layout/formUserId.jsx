@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
 import ListDiamond from "./listDiamond";
+import LoadingOverlay from "@/components/layout/Loading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,13 +31,13 @@ export function ProfileForm() {
   const [orderData, setOrderData] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState("");
   const [nickname, setNickname] = useState("Loading...");
-
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       id: "",
       server: "",
-      selectedDiamond: 0, // Harus angka karena validasi di Zod adalah z.number()
+      selectedDiamond: 0,
       selectedPayment: "",
     },
   });
@@ -44,30 +45,24 @@ export function ProfileForm() {
     setConfirmOrderVisible(a);
   };
   const onSubmit = async (data) => {
-    console.log("=== Form Data Saat Submit ===", data);
-    console.log("Form Errors:", form.formState.errors);
-
     try {
-      // Ambil nickname dari API menggunakan Axios
+      setLoading(true);
       const response = await axios.get(
-        `http://localhost:5000/api/user?id=${data.id}&server=${data.server}9`,
+        `/api-games/cek/mobile-legends?id=${data.id}&zone=${data.server}&apikey=111`,
         {
           params: { id: data.id, server: data.server },
         }
       );
 
-      const nickname = response.data.Nickname || "Tidak ditemukan";
+      const nickname = response.data.data.username || "Tidak ditemukan";
 
-      // Buat notifikasi dengan nickname dari API
       const notifications = [
-        { title: "Nickname:", description: nickname }, // Menggunakan nickname dari API
+        { title: "Nickname:", description: nickname },
         { title: "ID:", description: `${data.id} (${data.server})` },
         { title: "Harga:", description: data.selectedDiamond },
         { title: "Bayar dengan:", description: data.selectedPayment },
       ];
-
-      console.log("Notifikasi akan ditampilkan:", notifications);
-
+      setLoading(false);
       setOrderData(notifications);
       setConfirmOrderVisible(true);
     } catch (error) {
@@ -75,7 +70,6 @@ export function ProfileForm() {
     }
   };
 
-  // Fungsi untuk mencegah input huruf
   const handleKeyDown = (event) => {
     const { key } = event;
     if (!/^[0-9]$/.test(key) && key !== "Backspace") {
@@ -88,7 +82,6 @@ export function ProfileForm() {
   };
 
   const handleConfirm = () => {
-    console.log("Order confirmed!");
     setConfirmOrderVisible(false);
   };
 
@@ -99,6 +92,7 @@ export function ProfileForm() {
 
   return (
     <>
+      <LoadingOverlay isLoading={loading} />
       {isConfirmOrderVisible && (
         <ConfirmOrder
           notifications={orderData}
@@ -107,7 +101,7 @@ export function ProfileForm() {
         />
       )}
 
-      <div className=" max-w-[360px] px-4 w-full md:max-w-[1440px] mx-auto mt-[10px]">
+      <div className="  px-4 w-full max-w-7xl mx-auto mt-5">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="flex space-x-4 items-center">
@@ -118,7 +112,7 @@ export function ProfileForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        <h5 className="font-bold text-white">Form ID</h5>
+                        <h5 className="font-bold ">Form Id Server</h5>
                       </FormLabel>
                       <FormControl>
                         <Input

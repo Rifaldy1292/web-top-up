@@ -1,7 +1,16 @@
 // pages/JokiRankPage.jsx
 import { useState } from "react";
-import Navbar from "../../components/layout/navbar";
-import Footer from "../../components/layout/footer";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
 
 const JasaJoki = () => {
   const [formData, setFormData] = useState({
@@ -19,111 +28,107 @@ const JasaJoki = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSelectChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form joki rank dikirim:", formData);
-    // Tambahkan pengiriman ke Firestore/API di sini
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="  text-white px-4 py-10">
-        <div className="max-w-xl mx-auto bg-[#2c092c] rounded-xl shadow-xl p-6">
-          <h2 className="text-2xl font-bold text-center text-white-400 mb-6">
+    <div className="px-4 py-10">
+      <Card className="max-w-xl mx-auto shadow-xl md:h-full h-full">
+        <CardContent className="p-6">
+          <h2 className="text-2xl font-bold text-center mb-6">
             Jasa Joki Rank Game
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <input
+            <Input
               type="text"
               name="nama"
               placeholder="Nama Pemesan"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
               onChange={handleChange}
               required
             />
 
-            <input
+            <Input
               type="text"
               name="idGame"
               placeholder="ID Akun Game"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
               onChange={handleChange}
               required
             />
 
-            <input
+            <Input
               type="text"
               name="server"
               placeholder="Server (opsional)"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
               onChange={handleChange}
             />
 
-            <select
-              name="game"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
-              onChange={handleChange}
-              required
+            <Select
+              onValueChange={(value) => handleSelectChange("game", value)}
             >
-              <option value="">Pilih Game</option>
-              <option value="Mobile Legends">Mobile Legends</option>
-              <option value="Free Fire">Free Fire</option>
-              <option value="PUBG Mobile">PUBG Mobile</option>
-              <option value="CODM">Call of Duty Mobile</option>
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Pilih Game" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Mobile Legends">Mobile Legends</SelectItem>
+                <SelectItem value="Free Fire">Free Fire</SelectItem>
+                <SelectItem value="PUBG Mobile">PUBG Mobile</SelectItem>
+                <SelectItem value="CODM">Call of Duty Mobile</SelectItem>
+              </SelectContent>
+            </Select>
 
-            <input
+            <Input
               type="text"
               name="rankAwal"
               placeholder="Rank Saat Ini (Contoh: Epic)"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
               onChange={handleChange}
               required
             />
 
-            <input
+            <Input
               type="text"
               name="rankTarget"
               placeholder="Target Rank (Contoh: Mythic)"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
               onChange={handleChange}
               required
             />
 
-            <textarea
+            <Textarea
               name="catatan"
-              rows="3"
               placeholder="Catatan Tambahan (opsional)"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
+              rows="3"
               onChange={handleChange}
-            ></textarea>
+            />
 
-            <select
-              name="metodePembayaran"
-              className="w-full p-3 rounded bg-[#1c1c1e] border border-violet-500"
-              onChange={handleChange}
-              required
+            <Select
+              onValueChange={(value) =>
+                handleSelectChange("metodePembayaran", value)
+              }
             >
-              <option value="">Metode Pembayaran</option>
-              <option value="Gopay">Gopay</option>
-              <option value="Dana">Dana</option>
-              <option value="OVO">OVO</option>
-              <option value="Transfer Bank">Transfer Bank</option>
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Metode Pembayaran" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Gopay">Gopay</SelectItem>
+                <SelectItem value="Dana">Dana</SelectItem>
+                <SelectItem value="OVO">OVO</SelectItem>
+                <SelectItem value="Transfer Bank">Transfer Bank</SelectItem>
+              </SelectContent>
+            </Select>
 
-            <button
-              type="submit"
-              className="w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-3 rounded transition duration-300"
-            >
+            <Button type="submit" className="w-full">
               Kirim Permintaan Joki
-            </button>
+            </Button>
           </form>
-        </div>
-      </div>
-      <Footer />
-    </>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

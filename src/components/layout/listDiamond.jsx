@@ -1,66 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { fetchDiamondGames } from "../../api/userApi";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
 const ListDiamond = ({ onDiamondSelect, tittle }) => {
-  const [selectedDiamond, setSelectedDiamond] = useState(null); // State untuk menyimpan pilihan diamond
-
+  const [selectedDiamond, setSelectedDiamond] = useState(null);
   const [gameData, setGameData] = useState([]);
   const { id } = useParams();
+
   useEffect(() => {
     const getGameData = async () => {
-      if (!id) return; // Pastikan id ada sebelum fetching
-      const data = await fetchDiamondGames(id);
-      setGameData(data);
-      console.log(gameData);
+      if (!id) return;
+      try {
+        const data = await fetchDiamondGames(id);
+        setGameData(data);
+      } catch (error) {
+        console.error("Gagal mengambil data game:", error);
+      }
     };
 
     getGameData();
   }, [id]);
 
-  console.log(id);
-  // Fungsi untuk menangani perubahan pilihan diamond
   const handleDiamondSelect = (price) => {
-    console.log("Selected Diamond:", price);
-    setSelectedDiamond(price); // Simpan diamond yang dipilih
-    onDiamondSelect(price); // Panggil fungsi dari parent untuk mengirimkan nilai
+    setSelectedDiamond(price);
+    onDiamondSelect(price);
   };
 
   return (
     <div>
-      <a className="text-white font-bold block mb-5">Pilih Jumlah Diamond</a>
+      <Label className="font-bold text-base mb-5 block">
+        Pilih Jumlah Diamond
+      </Label>
 
-      <div className="w-full max-w-[360px] md:max-w-full mx-auto flex flex-wrap gap-4 justify-center md:justify-start cursor-pointer">
+      <div className="max-w-7xl mx-auto flex flex-wrap gap-5 justify-center md:justify-start">
         {gameData.map((diamond, index) => (
-          <div
-            className={`relative w-[150px] h-[90px] rounded-xl p-3 text-white transition-all duration-200 border 
-        ${
-          selectedDiamond === diamond.price
-            ? "bg-gradient-to-br from-[#6a1b9a] to-[#8e24aa] border-purple-300 shadow-lg"
-            : "bg-[#1c1c1e] border-[#2c2c2e] hover:border-purple-400 hover:bg-[#2a0e2a]"
-        }`}
+          <Card
             key={`${diamond.packet_name}-${index}`}
+            className={`relative w-[150px] md:h-[100px]  h-[90px] p-3 cursor-pointer transition-all duration-200 border 
+            ${
+              selectedDiamond === diamond.price
+                ? "bg-black text-white border-white shadow-md"
+                : "bg-white text-black border-gray-300 hover:border-black"
+            }`}
           >
             <input
               type="radio"
               name="diamond"
               id={`diamond-${diamond.packet_name}`}
               value={diamond.price}
-              className="absolute inset-0 cursor-pointer opacity-0"
+              className="absolute inset-0 opacity-0 cursor-pointer"
               onChange={() => handleDiamondSelect(diamond.price)}
               checked={selectedDiamond === diamond.price}
             />
-            <label
+            <Label
               htmlFor={`diamond-${diamond.packet_name}`}
-              className="flex flex-col justify-center items-center h-full text-center font-medium text-sm md:text-base leading-tight"
+              className="flex flex-col items-center justify-center h-full text-center text-sm font-medium"
             >
-              <span className="text-sm">{diamond.packet_name}</span>
-              <span className="mt-1 text-sm text-gray-300">{`Rp ${new Intl.NumberFormat(
+              <span>{diamond.packet_name}</span>
+              <span className="mt-1 text-muted-foreground">{`Rp ${new Intl.NumberFormat(
                 "id-ID"
               ).format(diamond.price)}`}</span>
-            </label>
-          </div>
+            </Label>
+          </Card>
         ))}
       </div>
     </div>

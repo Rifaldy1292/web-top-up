@@ -12,7 +12,7 @@ const PaymentMethod = ({ onPaymentSelect }) => {
 
   return (
     <div className="space-y-4">
-      <a className="text-white font-bold block mb-5">Pilih Metode Pembayaran</a>
+      <a className=" font-bold block mb-5">Pilih Metode Pembayaran</a>
       {[
         {
           label: "Qris",
@@ -24,8 +24,8 @@ const PaymentMethod = ({ onPaymentSelect }) => {
           className={`flex items-center h-[80px] rounded-xl px-4 shadow-md cursor-pointer transition duration-300 transform
         ${
           selectedMethod === method.label
-            ? "bg-violet-600 text-white shadow-lg"
-            : "bg-white text-gray-900 hover:bg-violet-100 hover:scale-[1.02] hover:shadow-lg"
+            ? "bg-black text-white border-white shadow-md"
+            : "bg-white text-black border-gray-300 hover:border-black"
         }`}
           onClick={() => handleSelectMethod(method.label)}
         >

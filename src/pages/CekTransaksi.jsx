@@ -1,7 +1,16 @@
 // src/pages/CekTransaksi.jsx
-import Footer from "@/components/layout/footer";
-import Navbar from "@/components/layout/navbar";
 import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
 
 const CekTransaksi = () => {
   const [transactionId, setTransactionId] = useState("");
@@ -40,67 +49,61 @@ const CekTransaksi = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="md:min-h-screen h-[500px] flex items-center justify-center  px-4 py-10">
-        <div className="bg-[#2c092c] p-6 rounded-xl w-full max-w-4xl shadow-xl">
-          <h2 className="text-2xl font-bold text-white mb-4 text-center">
+    <div className=" max-w-7xl mx-auto  flex items-center justify-center px-4 py-10">
+      <Card className="max-w-3xl w-full mx-auto h-full md:h-full  shadow-xl">
+        <CardContent className="p-6">
+          <h2 className="text-2xl font-bold text-center mb-6">
             Cek Transaksi Joki
           </h2>
-          <div className="mb-6">
-            <input
-              type="text"
+
+          <div className="mb-4">
+            <Input
               placeholder="Masukkan ID Transaksi"
               value={transactionId}
               onChange={(e) => setTransactionId(e.target.value)}
-              className="w-full border border-purple-300 px-4 py-3 rounded-lg bg-[#3b0a57] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className=""
             />
           </div>
-          <button
-            onClick={handleCheck}
-            className="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-lg transition duration-300"
-          >
-            Cek Transaksi
-          </button>
 
-          {/* Tabel Transaksi */}
+          <Button onClick={handleCheck} className="w-full ">
+            Cek Transaksi
+          </Button>
+
           {status === "found" && transactions.length > 0 && (
-            <div className="mt-6 overflow-x-auto">
-              <table className="w-full table-auto text-white">
-                <thead>
-                  <tr className="bg-purple-700">
-                    <th className="px-4 py-2">ID Transaksi</th>
-                    <th className="px-4 py-2">Status</th>
-                    <th className="px-4 py-2">Paket</th>
-                    <th className="px-4 py-2">Akun</th>
-                    <th className="px-4 py-2">Tanggal</th>
-                  </tr>
-                </thead>
-                <tbody>
+            <div className="mt-6 overflow-x-auto rounded-lg border ">
+              <Table>
+                <TableHeader className="">
+                  <TableRow>
+                    <TableHead>ID Transaksi</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Paket</TableHead>
+                    <TableHead>Akun</TableHead>
+                    <TableHead>Tanggal</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {transactions.map((transaction) => (
-                    <tr key={transaction.id} className="bg-[#3c0d4e]">
-                      <td className="px-4 py-2">{transaction.id}</td>
-                      <td className="px-4 py-2">{transaction.status}</td>
-                      <td className="px-4 py-2">{transaction.paket}</td>
-                      <td className="px-4 py-2">{transaction.akun}</td>
-                      <td className="px-4 py-2">{transaction.tanggal}</td>
-                    </tr>
+                    <TableRow key={transaction.id} className="">
+                      <TableCell>{transaction.id}</TableCell>
+                      <TableCell>{transaction.status}</TableCell>
+                      <TableCell>{transaction.paket}</TableCell>
+                      <TableCell>{transaction.akun}</TableCell>
+                      <TableCell>{transaction.tanggal}</TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
           )}
 
-          {/* Pesan jika transaksi tidak ditemukan */}
           {status === "not-found" && (
             <div className="mt-6 text-center text-red-400 font-semibold">
               Transaksi tidak ditemukan.
             </div>
           )}
-        </div>
-      </div>
-      <Footer />
-    </>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
