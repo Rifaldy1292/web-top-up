@@ -51,7 +51,7 @@ export function ProfileForm() {
 
       const response = await cekIdServer(data.id, data.server);
 
-      const nickname = response.data.data.username || "Tidak ditemukan";
+      const nickname = response.data.username || "Tidak ditemukan";
 
       const notifications = [
         { title: "Nickname:", description: nickname },
