@@ -73,7 +73,7 @@ const BannerPage = () => {
                 className="overflow-hidden  relative h-full md:h-full"
               >
                 <img
-                  src={`${url}${banner.url_banner_image}`}
+                  src={`${url}/${banner.url_banner_image}`}
                   alt={banner.title}
                   className="w-full h-40 object-cover"
                 />{" "}

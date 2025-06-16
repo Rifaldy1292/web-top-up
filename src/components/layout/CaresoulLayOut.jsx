@@ -33,7 +33,7 @@ export function CarouselDemo() {
               <CarouselItem key={banner.id}>
                 {banner?.url_banner_image && (
                   <img
-                    src={`${url}${banner.url_banner_image}`}
+                    src={`${url}/${banner.url_banner_image}`}
                     alt=""
                     className="aspect-[5/2]  w-full rounded-[10px]  object-cover   "
                   />
