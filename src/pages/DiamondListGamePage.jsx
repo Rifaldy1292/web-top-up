@@ -6,7 +6,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
-import ListDiamond from "@/components/layout/ListDiamond";
+import ListDiamond from "@/components/layout/ListDiamond.jsx";
 import { ConfirmOrder } from "@/components/layout/ConfirmOrder";
 import { Button } from "@/components/ui/button";
 import PaymentMethod from "@/components/layout/paymentMethod";
