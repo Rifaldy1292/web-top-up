@@ -70,9 +70,11 @@ const Games = () => {
         <Card className=" shadow-md h-full md:h-full  border ">
           <CardHeader className="flex justify-between items-center">
             <CardTitle className="text-2xl font-bold ">Daftar Game</CardTitle>
-            <Button variant="outline" className="border-none">
-              <Link to="/admin-dashboard/games/add-games">Tambah Game</Link>
-            </Button>
+
+            <Link to="/admin-dashboard/games/add-games">
+              {" "}
+              <Button className="border-none">Tambah Game </Button>
+            </Link>
           </CardHeader>
 
           <CardContent className="overflow-x-auto">

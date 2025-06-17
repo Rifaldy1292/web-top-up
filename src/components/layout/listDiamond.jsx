@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { fetchDiamondGames } from "../../api/userApi";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
-const ListDiamond = ({ onDiamondSelect, tittle }) => {
+const ListDiamond = ({ gameId, onDiamondSelect, onDigiflazzData }) => {
   const [selectedDiamond, setSelectedDiamond] = useState(null);
   const [gameData, setGameData] = useState([]);
-  const { id } = useParams();
 
   useEffect(() => {
     const getGameData = async () => {
-      if (!id) return;
+      if (!gameId) return;
       try {
-        const data = await fetchDiamondGames(id);
+        const data = await fetchDiamondGames(gameId);
         setGameData(data);
       } catch (error) {
         console.error("Gagal mengambil data game:", error);
@@ -21,11 +19,12 @@ const ListDiamond = ({ onDiamondSelect, tittle }) => {
     };
 
     getGameData();
-  }, [id]);
+  }, [gameId]);
 
-  const handleDiamondSelect = (price) => {
-    setSelectedDiamond(price);
-    onDiamondSelect(price);
+  const handleSelect = (diamond) => {
+    setSelectedDiamond(diamond.price);
+    onDiamondSelect(diamond.price);
+    onDigiflazzData(diamond); // mengirim seluruh object diamond
   };
 
   return (
@@ -38,12 +37,12 @@ const ListDiamond = ({ onDiamondSelect, tittle }) => {
         {gameData.map((diamond, index) => (
           <Card
             key={`${diamond.packet_name}-${index}`}
-            className={`relative w-[150px] md:h-[100px]  h-[90px] p-3 cursor-pointer transition-all duration-200 border 
-            ${
-              selectedDiamond === diamond.price
-                ? "bg-black text-white border-white shadow-md"
-                : "bg-white text-black border-gray-300 hover:border-black"
-            }`}
+            className={`relative w-[150px] md:h-[100px] h-[90px] p-3 cursor-pointer transition-all duration-200 border 
+              ${
+                selectedDiamond === diamond.price
+                  ? "bg-black text-white border-white shadow-md"
+                  : "bg-white text-black border-gray-300 hover:border-black"
+              }`}
           >
             <input
               type="radio"
@@ -51,7 +50,7 @@ const ListDiamond = ({ onDiamondSelect, tittle }) => {
               id={`diamond-${diamond.packet_name}`}
               value={diamond.price}
               className="absolute inset-0 opacity-0 cursor-pointer"
-              onChange={() => handleDiamondSelect(diamond.price)}
+              onChange={() => handleSelect(diamond)}
               checked={selectedDiamond === diamond.price}
             />
             <Label

@@ -3,7 +3,7 @@ import { Suspense, lazy } from "react";
 
 import { Toaster } from "@/components/ui/toaster";
 const HomePage = lazy(() => import("./pages/homePage.jsx"));
-const DiamondListGame = lazy(() => import("./pages/diamondListGame.jsx"));
+const DiamondListGame = lazy(() => import("./pages/DiamondListGamePage.jsx"));
 const JasaJoki = lazy(() => import("./pages/jasa-joki/JasaJoki.jsx"));
 const CekTransaksi = lazy(() => import("./pages/CekTransaksi.jsx"));
 const LoginPage = lazy(() => import("./pages/auth/Login.jsx"));
