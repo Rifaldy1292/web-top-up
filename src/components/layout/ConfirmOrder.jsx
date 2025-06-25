@@ -42,13 +42,13 @@ export function ConfirmOrder({
 
       const url = `${API_URL}/api/create-transaction`;
 
-      const transactionId = generateTransactionId();
+      const createTransaction_id = generateTransactionId();
 
       const body = {
-        ...transactionData, // gunakan semua data dari parent
-        order_id: transactionId,
+        ...transactionData,
+        transaction_id: createTransaction_id,
       };
-
+      console.log(body);
       const headers = {
         "Content-Type": "application/json",
       };

@@ -41,7 +41,7 @@ export const login = async (data) => {
     return response;
   } catch (error) {
     console.error("Error fetching users:", error);
-    return error;
+    throw error;
   }
 };
 export const refreshToken = async () => {

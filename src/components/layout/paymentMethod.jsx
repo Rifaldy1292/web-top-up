@@ -9,14 +9,14 @@ const PaymentMethod = ({ defaultMethod = "" }) => {
       label: "Qris",
       icon: "/qr-code.png",
     },
-    {
-      label: "Transfer Bank",
-      icon: "/bank.png",
-    },
-    {
-      label: "E-Wallet",
-      icon: "/wallet.png",
-    },
+    // {
+    //   label: "Transfer Bank",
+    //   icon: "/bank.png",
+    // },
+    // {
+    //   label: "E-Wallet",
+    //   icon: "/wallet.png",
+    // },
   ];
 
   useEffect(() => {

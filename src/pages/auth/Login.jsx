@@ -27,14 +27,9 @@ export default function LoginPage() {
 
     try {
       const response = await login(formData);
-      console.log("Response:", response);
-      if (response.status !== 200 && response.status !== 201) {
-        return;
-      }
 
-      console.log("Pendaftaran berhasil:", response);
       dispatch(setAccessToken(response.data.token));
-      console.log("token", response.data.token);
+
       toast({
         title: "Login Berhasil",
         description: "Anda berhasil masuk ke akun Anda.",
@@ -45,10 +40,13 @@ export default function LoginPage() {
         password: "",
       });
     } catch (error) {
-      console.error("Error during registration:", error);
+      toast({
+        title: "Login Gagal",
+        description: error?.response?.data?.message || "Terjadi kesalahan.",
+        variant: "destructive",
+      });
       // setEror("Gagal melakukan pendaftaran. Silakan coba lagi.");
     }
-    console.log(formData);
   };
   return (
     <div className="min-h-[600px] flex items-center justify-center  px-4">
