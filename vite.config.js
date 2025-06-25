@@ -11,6 +11,8 @@ export default defineConfig({
     },
   },
   server: {
+    host: true, // agar bisa diakses dari jaringan lokal
+    port: 5173, // port default, boleh diubah
     proxy: {
       "/api-games": {
         target: "https://api-games.ilhdev.com",

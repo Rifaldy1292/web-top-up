@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import PaymentMethod from "@/components/layout/paymentMethod";
 import { Form } from "@/components/ui/form";
 import LoadingOverlay from "@/components/layout/Loading.jsx";
+import { useToast } from "@/hooks/use-toast";
 // ✅ Schema untuk validasi
 const schema = z.object({
   id: z.string().regex(/^\d+$/, "ID harus angka."),
@@ -20,6 +21,7 @@ const schema = z.object({
 });
 
 const DiamondListGame = () => {
+  const { toast } = useToast();
   const { id } = useParams();
   const location = useLocation();
   const gameName = location.state?.gameName;
@@ -62,8 +64,17 @@ const DiamondListGame = () => {
 
   const handleSubmit = async (data) => {
     setUserInput({ userId: data.id, serverId: data.server });
-
     setPaymentMethod(data.paymentMethod);
+
+    if (!selectedDiamond) {
+      toast({
+        variant: "destructive",
+        title: "Terjadi Kesalahan",
+        description: "Silakan pilih jumlah diamond.",
+      });
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await axios.get(
@@ -88,6 +99,17 @@ const DiamondListGame = () => {
 
     setShowConfirm(true);
   };
+  const onError = (errors) => {
+    // Tampilkan toast jika ada error
+    if (errors.paymentMethod) {
+      toast({
+        variant: "destructive",
+        title: "Terjadi Kesalahan",
+        description: errors.paymentMethod.message,
+      });
+    }
+    // Tambahkan error lain jika perlu
+  };
 
   const notifications = [
     { title: "Nickname", description: nickname },
@@ -104,15 +126,19 @@ const DiamondListGame = () => {
     },
     { title: "Bayar dengan", description: paymentMethod },
   ];
-
+  console.log(digiflazzData);
   const transactionData = {
     sku_code: digiflazzData?.digiflaz?.buyer_sku_code,
-    first_name: "Rifky",
-    last_name: "Rifaldy",
+    username: "Rifky",
     email: "ucbrowser012@gmail.com",
     phone: "085157553545",
     gross_amount: digiflazzData?.price || 0,
-    idServer: `${userInput.userId}${userInput.serverId}`,
+    id_server: `${userInput.userId}${userInput.serverId}`,
+    payment_method: paymentMethod,
+    packet_id: digiflazzData?.id,
+    payment_date: new Date(),
+    status: "pending",
+    total_price: digiflazzData?.price,
   };
 
   return (
@@ -131,7 +157,7 @@ const DiamondListGame = () => {
       <FormProvider {...methods}>
         <Form {...methods}>
           <form
-            onSubmit={methods.handleSubmit(handleSubmit)}
+            onSubmit={methods.handleSubmit(handleSubmit, onError)}
             className="space-y-8"
           >
             <div className="mt-10">
